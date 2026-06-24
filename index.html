@@ -1,0 +1,3393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MathSolve — Discrete Mathematics Assignment Hub</title>
+
+<!-- MathJax for proper math rendering -->
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$','$$'],['\\[','\\]']] },
+    svg: { fontCache: 'global' }
+  };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+<style>
+/* ============ RESET ============ */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;font-family:'Segoe UI',Roboto,system-ui,sans-serif;color:#f4f4ff;overflow-x:hidden;font-weight:600}
+body{background:#0a0a23}
+
+/* ============ ANIMATED BACKGROUND ============ */
+.bg-anim{position:fixed;inset:0;z-index:-2;overflow:hidden}
+.grad{
+  position:absolute;inset:-25%;
+  background:linear-gradient(125deg,#1a0b3a,#0a3d62,#3a0ca3,#7209b7,#240046,#00b4d8);
+  background-size:400% 400%;
+  animation:gradShift 18s ease infinite;
+}
+@keyframes gradShift{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.shapes{position:absolute;inset:0;list-style:none}
+.shapes li{
+  position:absolute;display:block;
+  width:30px;height:30px;background:rgba(255,255,255,0.10);
+  border:1px solid rgba(255,255,255,0.18);
+  bottom:-120px;border-radius:18%;
+  animation:rise 22s linear infinite;
+}
+.shapes li:nth-child(1){left:8%;width:80px;height:80px;animation-delay:0s;animation-duration:22s}
+.shapes li:nth-child(2){left:18%;width:24px;height:24px;animation-delay:2s;animation-duration:14s;background:rgba(114,9,183,0.25)}
+.shapes li:nth-child(3){left:28%;width:38px;height:38px;animation-delay:4s}
+.shapes li:nth-child(4){left:42%;width:60px;height:60px;animation-duration:18s;background:rgba(0,180,216,0.18)}
+.shapes li:nth-child(5){left:55%;width:24px;height:24px;animation-duration:25s}
+.shapes li:nth-child(6){left:65%;width:110px;height:110px;animation-delay:3s;background:rgba(58,12,163,0.22)}
+.shapes li:nth-child(7){left:75%;width:50px;height:50px;animation-delay:7s;animation-duration:30s}
+.shapes li:nth-child(8){left:82%;width:18px;height:18px;animation-delay:15s;animation-duration:35s}
+.shapes li:nth-child(9){left:90%;width:65px;height:65px;animation-delay:2s;background:rgba(0,180,216,0.15)}
+.shapes li:nth-child(10){left:35%;width:14px;height:14px;animation-delay:11s;animation-duration:11s}
+@keyframes rise{
+  0%{transform:translateY(0) rotate(0);opacity:0}
+  10%{opacity:1}
+  100%{transform:translateY(-110vh) rotate(720deg);opacity:0;border-radius:50%}
+}
+
+/* ============ PAGES ============ */
+.page{display:none;min-height:100vh;animation:fadeIn .6s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* ============ NAVBAR ============ */
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:18px 6vw;backdrop-filter:blur(14px);
+  background:rgba(10,10,35,0.55);border-bottom:1px solid rgba(255,255,255,.08);
+  position:sticky;top:0;z-index:10;
+}
+.logo{font-size:1.4rem;font-weight:900;letter-spacing:.5px}
+.logo span{background:linear-gradient(90deg,#00d4ff,#ff6ec7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:14px;flex-wrap:wrap}
+.nav-item{
+  color:#dcdcff;text-decoration:none;font-weight:700;font-size:.95rem;
+  padding:6px 14px;border-radius:30px;transition:.3s;cursor:pointer;
+}
+.nav-item:hover,.nav-item.active{background:rgba(255,255,255,.13);box-shadow:0 0 20px rgba(0,212,255,.3)}
+
+/* ============ HERO ============ */
+.hero{padding:6vh 6vw 12vh;text-align:center;max-width:1100px;margin:auto}
+.hero-title{font-size:clamp(2rem,5vw,4rem);font-weight:900;line-height:1.15;margin-bottom:18px}
+.glow{
+  background:linear-gradient(90deg,#00f5ff,#ff6ec7,#ffd23f,#00f5ff);
+  background-size:300% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:hue 6s linear infinite;
+}
+.sub{font-size:.5em;display:inline-block;margin-top:6px;color:#cdd6f4;letter-spacing:3px;text-transform:uppercase;font-weight:700}
+@keyframes hue{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.hero-text{font-size:1.1rem;max-width:780px;margin:0 auto 30px;color:#e6e6ff;line-height:1.65;font-weight:500}
+.cta{
+  background:linear-gradient(135deg,#ff6ec7 0%,#7209b7 50%,#00d4ff 100%);
+  background-size:200% 200%;color:#fff;border:0;
+  padding:16px 36px;font-size:1.05rem;font-weight:800;border-radius:50px;
+  cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 10px 30px rgba(114,9,183,.45),inset 0 0 0 1px rgba(255,255,255,.2);
+  transition:.4s;animation:pulse 3s ease infinite;
+}
+.cta:hover{background-position:100% 0;transform:translateY(-3px) scale(1.03)}
+@keyframes pulse{
+  0%,100%{box-shadow:0 10px 30px rgba(114,9,183,.45),0 0 0 0 rgba(0,212,255,.5)}
+  50%{box-shadow:0 10px 30px rgba(114,9,183,.45),0 0 0 14px rgba(0,212,255,0)}
+}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:55px}
+.feature{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
+  padding:24px 18px;border-radius:18px;font-size:2rem;
+  backdrop-filter:blur(12px);transition:.4s;
+}
+.feature h3{font-size:1.05rem;margin:8px 0 6px;color:#00f5ff;font-weight:800}
+.feature p{font-size:.85rem;color:#cdd6f4;font-weight:500;line-height:1.5}
+.feature:hover{transform:translateY(-6px);border-color:#00d4ff}
+
+/* ============ SELECTOR ============ */
+.container{max-width:1180px;margin:auto;padding:50px 6vw 80px}
+.container.narrow{max-width:780px;text-align:center}
+.page-title{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;text-align:center;margin-bottom:8px;
+  background:linear-gradient(90deg,#00f5ff,#ff6ec7);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page-sub{text-align:center;color:#cdd6f4;margin-bottom:42px;font-weight:500}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{
+  position:relative;background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);border-radius:22px;
+  padding:32px 26px;cursor:pointer;overflow:hidden;
+  backdrop-filter:blur(14px);transition:.45s cubic-bezier(.2,.8,.2,1);
+}
+.card::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(255,110,199,.18));
+  opacity:0;transition:.45s;
+}
+.card:hover{transform:translateY(-10px) scale(1.02);border-color:rgba(0,212,255,.6)}
+.card:hover::before{opacity:1}
+.card>*{position:relative;z-index:1}
+.card-num{font-size:3rem;font-weight:900;color:rgba(255,255,255,.18);line-height:1}
+.card h3{font-size:1.4rem;margin:6px 0 4px;font-weight:900}
+.card .tag{color:#00f5ff;font-size:.8rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;font-weight:800}
+.card p{color:#dcdcff;font-size:.92rem;line-height:1.55;font-weight:500}
+.card .open{display:inline-block;margin-top:18px;color:#ff6ec7;font-weight:800;font-size:.95rem}
+.cat-card .card-num{font-size:3rem;line-height:1;color:#fff;text-shadow:0 0 24px rgba(0,212,255,.5)}
+.cat-card{border:1px solid rgba(255,210,63,.25)}
+.cat-card:hover{border-color:#ffd23f;box-shadow:0 22px 50px rgba(255,210,63,.20)}
+
+/* ============ ABOUT ============ */
+.about-box{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;padding:32px;margin:30px 0;text-align:left;
+  backdrop-filter:blur(14px);line-height:1.8;
+}
+.about-box p{margin:10px 0;font-size:1rem;font-weight:500}
+
+/* ============ SOLUTION PAGES — LINE-BY-LINE FORMAT ============ */
+.solution-page .container{max-width:1000px}
+.back{
+  background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.2);
+  padding:10px 22px;border-radius:30px;cursor:pointer;font-weight:700;margin-bottom:30px;
+  transition:.3s;backdrop-filter:blur(10px);
+}
+.back:hover{background:#00d4ff;color:#0a0a23;border-color:transparent;transform:translateX(-4px)}
+
+.qa{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-left:4px solid #00d4ff;border-radius:14px;
+  padding:22px 26px;margin-bottom:28px;backdrop-filter:blur(10px);
+  animation:slideIn .6s ease both;
+  overflow:hidden;
+  transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+}
+.qa:hover{transform:translateY(-3px);border-color:rgba(255,210,63,.5);
+  box-shadow:0 14px 38px rgba(0,0,0,.35),0 0 24px rgba(255,210,63,.15)}
+.qa:hover{border-left-color:#ff6ec7}
+/* ========= UNIQUE QUESTION HEADER STYLE ========= */
+.qa .qtitle{
+  position:relative;
+  display:block;
+  font-size:1.05rem;font-weight:800;letter-spacing:.2px;line-height:1.55;
+  margin:-22px -26px 18px -26px;
+  padding:18px 24px 18px 64px;
+  background:linear-gradient(95deg,rgba(255,210,63,.20) 0%,rgba(255,110,199,.16) 50%,rgba(0,212,255,.14) 100%);
+  border-bottom:2px solid transparent;
+  border-image:linear-gradient(90deg,#ffd23f,#ff6ec7,#00d4ff) 1;
+  border-radius:14px 14px 0 0;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,.4);
+  word-wrap:break-word;overflow-wrap:break-word;
+}
+.qa .qtitle::before{
+  content:"Q";
+  position:absolute;left:14px;top:18px;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#ff6ec7,#7209b7,#00d4ff);
+  color:#fff;font-weight:900;font-size:1.05rem;
+  border-radius:10px;
+  box-shadow:0 4px 14px rgba(114,9,183,.5),inset 0 0 0 1px rgba(255,255,255,.25);
+  animation:badgePulse 2.5s ease infinite;
+}
+@keyframes badgePulse{
+  0%,100%{box-shadow:0 4px 14px rgba(114,9,183,.5),inset 0 0 0 1px rgba(255,255,255,.25),0 0 0 0 rgba(255,110,199,.5)}
+  50%{box-shadow:0 4px 14px rgba(114,9,183,.5),inset 0 0 0 1px rgba(255,255,255,.25),0 0 0 10px rgba(255,110,199,0)}
+}
+.qa:hover .qtitle{filter:brightness(1.08)}
+.qa .qtitle .qnum{
+  display:inline-block;margin-right:8px;
+  background:linear-gradient(90deg,#ffd23f,#ff6ec7);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:900;letter-spacing:.5px;
+}
+.qa .qtitle .qtext{color:#fff;font-weight:700}
+
+/* ONE single answer box — all steps inside together */
+.line-block{
+  background:rgba(0,0,0,.30);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  padding:18px 22px;
+  margin:6px 0 4px;
+  font-family:'Cambria Math','Times New Roman',serif;
+}
+.line-block .lbl{
+  display:block;
+  color:#00f5ff;font-weight:900;text-transform:uppercase;letter-spacing:1.5px;
+  font-size:.78rem;margin-top:16px;margin-bottom:6px;
+  font-family:'Segoe UI',sans-serif;
+  border-bottom:1px dashed rgba(0,245,255,.25);padding-bottom:4px;
+}
+.line-block .lbl:first-child{margin-top:0}
+.line-block .step{
+  display:block;
+  padding:4px 0;
+  font-size:1.02rem;color:#eef0ff;font-weight:600;line-height:1.65;
+  background:transparent;border:none;
+}
+.line-block .step.note{font-family:'Segoe UI',sans-serif;color:#cdd6f4;font-size:.92rem}
+.line-block .ans{
+  display:block;
+  background:linear-gradient(90deg,rgba(255,210,63,.22),rgba(255,110,199,.22));
+  border:2px solid #ffd23f;color:#fff;font-weight:900;
+  padding:12px 18px;border-radius:10px;font-size:1.06rem;
+  margin-top:14px;line-height:1.6;
+  box-shadow:0 0 20px rgba(255,210,63,.25);
+  font-family:'Cambria Math','Times New Roman',serif;
+}
+
+@keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+
+/* ============ FOOTER ============ */
+.footer{
+  text-align:center;padding:24px;color:#a9b3d6;font-size:.85rem;
+  border-top:1px solid rgba(255,255,255,.08);font-weight:600;
+  background:rgba(0,0,0,.25);backdrop-filter:blur(10px);
+}
+
+/* ============ STYLE SWITCHER TABS ============ */
+.style-tabs{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin:0 0 14px 0;padding:8px;
+  background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+}
+.style-tab{
+  flex:1 1 auto;min-width:0;
+  padding:8px 10px;font-size:.78rem;font-weight:800;
+  background:transparent;color:#cdd6f4;border:1px solid transparent;
+  border-radius:8px;cursor:pointer;transition:.25s;
+  text-align:center;letter-spacing:.3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-family:'Segoe UI',sans-serif;
+}
+.style-tab:hover{background:rgba(255,255,255,.08);color:#fff}
+.style-tab.active{
+  background:linear-gradient(135deg,#ff6ec7,#7209b7,#00d4ff);
+  color:#fff;box-shadow:0 4px 14px rgba(114,9,183,.4);
+  border-color:rgba(255,255,255,.2);
+}
+.style-tab .num{display:inline-block;margin-right:4px;opacity:.85;font-weight:900}
+
+/* one variation visible at a time — failsafe so something always shows */
+.line-block{display:none}
+.line-block:first-of-type{display:block}
+.qa.js-ready .line-block:first-of-type{display:none}
+.qa.js-ready .line-block.active{display:block}
+
+/* ============ MOBILE-FRIENDLY OVERFLOW FIXES ============ */
+.qa, .line-block, .qtitle, .step, .ans, .lbl{
+  max-width:100%;
+  word-wrap:break-word;
+  overflow-wrap:break-word;
+}
+mjx-container[jax="SVG"]{
+  max-width:100% !important;
+  display:inline-block;
+  vertical-align:middle;
+}
+mjx-container[jax="SVG"][display="true"]{
+  overflow-x:auto;overflow-y:hidden;
+  max-width:100% !important;
+  padding:2px 0;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,212,255,.5) transparent;
+}
+mjx-container[jax="SVG"][display="true"]::-webkit-scrollbar{height:6px}
+mjx-container[jax="SVG"][display="true"]::-webkit-scrollbar-thumb{
+  background:rgba(0,212,255,.5);border-radius:4px;
+}
+.line-block .step{
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,212,255,.4) transparent;
+}
+.line-block .step::-webkit-scrollbar{height:5px}
+.line-block .step::-webkit-scrollbar-thumb{background:rgba(0,212,255,.4);border-radius:4px}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:768px){
+  .container{padding:30px 4vw 60px}
+  .qa{padding:18px 14px}
+  .qa .qtitle{
+    font-size:.92rem;padding:14px 14px 14px 56px;
+    margin:-18px -14px 14px -14px;line-height:1.5;
+  }
+  .qa .qtitle::before{width:30px;height:30px;font-size:.9rem;left:12px;top:14px}
+  .line-block{padding:14px 12px}
+  .line-block .step{font-size:.9rem;line-height:1.55}
+  .line-block .lbl{font-size:.72rem;letter-spacing:1px}
+  .line-block .ans{font-size:.95rem;padding:10px 14px}
+  .style-tabs{padding:5px;gap:3px}
+  .style-tab{font-size:.68rem;padding:6px 4px;letter-spacing:0}
+  .style-tab .num{margin-right:2px}
+}
+@media(max-width:480px){
+  .topbar{padding:14px 4vw}
+  .nav-links{gap:4px}
+  .nav-item{padding:4px 8px;font-size:.78rem}
+  .logo{font-size:1.1rem}
+  .hero{padding:4vh 4vw 8vh}
+  .hero-text{font-size:.95rem}
+  .cta{padding:13px 24px;font-size:.95rem}
+  .features{grid-template-columns:1fr 1fr;gap:10px}
+  .feature{padding:16px 12px;font-size:1.5rem}
+  .feature h3{font-size:.9rem}
+  .feature p{font-size:.75rem}
+  .page-title{font-size:1.5rem}
+  .page-sub{font-size:.9rem;margin-bottom:24px}
+  .cards{grid-template-columns:1fr;gap:14px}
+  .card{padding:24px 20px}
+  .card-num{font-size:2.4rem}
+  .card h3{font-size:1.2rem}
+  .qa .qtitle{font-size:.85rem;padding:12px 12px 12px 50px}
+  .qa .qtitle::before{width:26px;height:26px;font-size:.8rem;left:10px;top:12px}
+  .line-block .step{font-size:.84rem}
+  .line-block .ans{font-size:.88rem}
+  .style-tab .lbl-text{display:none}
+}
+
+/* mathjax color tweak */
+mjx-container{color:#fff !important}
+</style>
+</head>
+<body>
+
+<div class="bg-anim">
+  <div class="grad"></div>
+  <ul class="shapes">
+    <li></li><li></li><li></li><li></li><li></li>
+    <li></li><li></li><li></li><li></li><li></li>
+  </ul>
+</div>
+
+<!-- ====== HOME ====== -->
+<section id="home" class="page active">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item active" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+      <a class="nav-item" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="hero">
+    <h1 class="hero-title">
+      <span class="glow">Discrete Mathematics</span><br/>
+      <span class="sub">Assignment Solutions Hub</span>
+    </h1>
+    <p class="hero-text">
+      A clean, animated, offline study companion delivering <b>line-by-line</b>
+      step-by-step solutions across <b>3 categories</b> — Assignments, Tutorials &amp; Question Bank —
+      formatted in strict <b>Given → Formula → Steps → Final Answer</b> style.
+    </p>
+    <button class="cta" onclick="show('selector')">🚀 Browse All Solutions</button>
+    <div class="features">
+      <div class="feature">📝<h3>4 Assignments</h3><p>54 problems with full derivations.</p></div>
+      <div class="feature">📚<h3>4 Tutorials</h3><p>Practice sheets + past exam questions.</p></div>
+      <div class="feature">🏛<h3>5 Question Bank Units</h3><p>Complete unit-wise coverage.</p></div>
+      <div class="feature">📴<h3>No API · No Keys</h3><p>100% offline, instant load, MathJax rendered.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== MAIN SELECTOR — 3 CATEGORIES ====== -->
+<section id="selector" class="page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item active" data-target="selector">Solutions</a>
+      <a class="nav-item" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="container">
+    <h2 class="page-title">Choose Your Category</h2>
+    <p class="page-sub">Pick a category to view all available solutions.</p>
+    <div class="cards">
+      <div class="card cat-card" onclick="show('cat-assignments')">
+        <div class="card-num">📝</div>
+        <h3>Assignments</h3>
+        <p class="tag">4 Assignments · 54 Questions</p>
+        <p>Full line-by-line solutions to all 4 university assignments covering Sets, Counting, Logic &amp; Graphs.</p>
+        <span class="open">View Assignments →</span>
+      </div>
+      <div class="card cat-card" onclick="show('cat-tutorials')">
+        <div class="card-num">📚</div>
+        <h3>Tutorial Solutions</h3>
+        <p class="tag">4 Tutorials · Practice Sets</p>
+        <p>Worked-out tutorial sheets with previous-year exam questions and step-by-step explanations.</p>
+        <span class="open">View Tutorials →</span>
+      </div>
+      <div class="card cat-card" onclick="show('cat-qbank')">
+        <div class="card-num">🏛</div>
+        <h3>Question Bank</h3>
+        <p class="tag">5 Units · Unit-wise QB</p>
+        <p>Complete unit-wise question bank — all 5 units of the syllabus with detailed solutions.</p>
+        <span class="open">View Question Bank →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SUB-SELECTOR: ASSIGNMENTS ====== -->
+<section id="cat-assignments" class="page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item active" data-target="selector">Solutions</a>
+      <a class="nav-item" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Categories</button>
+    <h2 class="page-title">📝 Assignments</h2>
+    <p class="page-sub">Click any card for full line-by-line solutions.</p>
+    <div class="cards">
+      <div class="card" onclick="show('a1')">
+        <div class="card-num">01</div>
+        <h3>Assignment 1</h3>
+        <p class="tag">Sets · Relations · Functions</p>
+        <p>Inclusion–exclusion, equivalence relations, POSets, function composition, bijections.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('a2')">
+        <div class="card-num">02</div>
+        <h3>Assignment 2</h3>
+        <p class="tag">Counting · Recursion · Induction</p>
+        <p>Pigeonhole, Euclidean algorithm, combinations, mathematical induction.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('a3')">
+        <div class="card-num">03</div>
+        <h3>Assignment 3</h3>
+        <p class="tag">Propositional Logic</p>
+        <p>Truth tables, tautologies, De Morgan, inference, loop invariants.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('a5')">
+        <div class="card-num">05</div>
+        <h3>Assignment 5</h3>
+        <p class="tag">Graph Theory</p>
+        <p>Simple graphs, isomorphism, bipartite, Eulerian, trees, eccentricity.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SUB-SELECTOR: TUTORIALS ====== -->
+<section id="cat-tutorials" class="page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item active" data-target="selector">Solutions</a>
+      <a class="nav-item" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Categories</button>
+    <h2 class="page-title">📚 Tutorial Solutions</h2>
+    <p class="page-sub">Practice sheets with previous-year exam questions, fully solved.</p>
+    <div class="cards">
+      <div class="card" onclick="show('t1')">
+        <div class="card-num">T1</div>
+        <h3>Tutorial 1</h3>
+        <p class="tag">Sets · Relations · Functions</p>
+        <p>Ordered pairs, relations on integers, matrix representation, closure properties.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('t2')">
+        <div class="card-num">T2</div>
+        <h3>Tutorial 2</h3>
+        <p class="tag">Induction · Recursion · Counting</p>
+        <p>PMI proofs, primes, divisibility, permutations, GCD, recurrence relations.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('t3')">
+        <div class="card-num">T3</div>
+        <h3>Tutorial 3</h3>
+        <p class="tag">Propositional Logic &amp; Proofs</p>
+        <p>Symbolic translation, truth tables, validity, direct &amp; contrapositive proofs.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('t4')">
+        <div class="card-num">T4</div>
+        <h3>Tutorial 4</h3>
+        <p class="tag">Algebraic Structures &amp; Boolean Algebra</p>
+        <p>Groups, subgroups, cyclic groups, homomorphisms, lattices, Boolean algebra.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SUB-SELECTOR: QUESTION BANK ====== -->
+<section id="cat-qbank" class="page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item active" data-target="selector">Solutions</a>
+      <a class="nav-item" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Categories</button>
+    <h2 class="page-title">🏛 Question Bank</h2>
+    <p class="page-sub">Complete unit-wise question bank covering the entire syllabus.</p>
+    <div class="cards">
+      <div class="card" onclick="show('u1')">
+        <div class="card-num">U1</div>
+        <h3>Unit 1</h3>
+        <p class="tag">Set Theory · Relations · Functions</p>
+        <p>30 questions: sets, Cartesian product, equivalence, POSet, Hasse diagram, bijections.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('u2')">
+        <div class="card-num">U2</div>
+        <h3>Unit 2</h3>
+        <p class="tag">Counting &amp; Induction</p>
+        <p>10 questions: permutations, combinations, GCD, induction, inclusion–exclusion.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('u3')">
+        <div class="card-num">U3</div>
+        <h3>Unit 3</h3>
+        <p class="tag">Propositional Logic</p>
+        <p>10 questions: syntax/semantics, WFFs, truth tables, tautology, proof by contradiction.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('u4')">
+        <div class="card-num">U4</div>
+        <h3>Unit 4</h3>
+        <p class="tag">Algebraic Structures</p>
+        <p>10 questions: semigroups, monoids, groups, subgroups, Boolean algebra, DNF/CNF.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+      <div class="card" onclick="show('u5')">
+        <div class="card-num">U5</div>
+        <h3>Unit 5</h3>
+        <p class="tag">Graph Theory</p>
+        <p>15 questions: graph drawing, self-complementary, bipartite, Eulerian, trees.</p>
+        <span class="open">Open Solutions →</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== ABOUT ====== -->
+<section id="about" class="page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+      <a class="nav-item active" data-target="about">About</a>
+    </div>
+  </nav>
+  <div class="container narrow">
+    <h2 class="page-title">About this Site</h2>
+    <div class="about-box">
+      <p>📚 <b>MathSolve</b> is a single-file web app written in pure HTML, CSS &amp; JavaScript.</p>
+      <p>✅ Every solution uses the strict <b>"Line-by-Line Math Formatting Standard"</b>:
+      Given → Formula → Step-by-Step Evolution → Final Answer (boxed).</p>
+      <p>📂 <b>Three categories</b> of content:</p>
+      <p>&nbsp;&nbsp;&nbsp;📝 <b>Assignments</b> — 4 sheets, 54 questions</p>
+      <p>&nbsp;&nbsp;&nbsp;📚 <b>Tutorials</b> — 4 practice sheets with previous-year exam questions</p>
+      <p>&nbsp;&nbsp;&nbsp;🏛 <b>Question Bank</b> — 5 unit-wise question sets covering entire syllabus</p>
+      <p>🧮 Math rendered with MathJax for proper symbolic typography.</p>
+      <p>🎨 Animated gradient background, floating shapes, smooth page transitions.</p>
+      <p>📴 No API. No keys. Works offline once loaded.</p>
+    </div>
+    <button class="cta" onclick="show('selector')">View Solutions</button>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- ASSIGNMENT 1 -->
+<!-- ====================================================================== -->
+<section id="a1" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Assignments</button>
+    <h2 class="page-title">Assignment 1 — Sets, Relations &amp; Functions</h2>
+
+    <!-- Q1 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">In a pollution study of 1500 Indian rivers, 520 were polluted by sulphur compounds, 335 by phosphates, 425 by crude oil, 100 by both crude oil and sulphur compounds, 180 by both sulphur compounds and phosphates, 150 by both phosphates and crude oil, and 28 by all three. How many rivers were polluted by at least one impurity? How many were not polluted by exactly one of the three? How many were not polluted at all?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">Total rivers $= 1500$</div>
+        <div class="step">$|S| = 520,\ |P| = 335,\ |C| = 425$</div>
+        <div class="step">$|S \cap C| = 100,\ |S \cap P| = 180,\ |P \cap C| = 150$</div>
+        <div class="step">$|S \cap P \cap C| = 28$</div>
+
+        <div class="lbl">Formula (Inclusion–Exclusion)</div>
+        <div class="step">$|S \cup P \cup C| = |S|+|P|+|C| - |S\cap P| - |P\cap C| - |S\cap C| + |S\cap P\cap C|$</div>
+
+        <div class="lbl">Part (a) — Polluted by at least one</div>
+        <div class="step">$= 520 + 335 + 425 - 180 - 150 - 100 + 28$</div>
+        <div class="step">$= 1280 - 430 + 28$</div>
+        <div class="step">$= 878$</div>
+        <div class="ans">∴ Rivers polluted by at least one impurity $= \boxed{878}$</div>
+
+        <div class="lbl">Part (b) — Not polluted by exactly one</div>
+        <div class="step">Exactly one $= \sum |X| - 2\sum |X\cap Y| + 3|S\cap P\cap C|$</div>
+        <div class="step">$= 1280 - 2(430) + 3(28)$</div>
+        <div class="step">$= 1280 - 860 + 84 = 504$</div>
+        <div class="step">Not polluted by exactly one $= 1500 - 504$</div>
+        <div class="ans">$= \boxed{996}$</div>
+
+        <div class="lbl">Part (c) — Not polluted at all</div>
+        <div class="step">$= 1500 - |S\cup P\cup C|$</div>
+        <div class="step">$= 1500 - 878$</div>
+        <div class="ans">$= \boxed{622}$</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2(1).</span><span class="qtext">Prove that $A \times (B \cap C) = (A \times B) \cap (A \times C)$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Proof (Set equality by element)</div>
+        <div class="step">Let $(x, y) \in A \times (B \cap C)$</div>
+        <div class="step">$\iff x \in A \text{ and } y \in B \cap C$</div>
+        <div class="step">$\iff x \in A \text{ and } (y \in B \text{ and } y \in C)$</div>
+        <div class="step">$\iff (x \in A, y \in B) \text{ and } (x \in A, y \in C)$</div>
+        <div class="step">$\iff (x, y) \in A \times B \text{ and } (x, y) \in A \times C$</div>
+        <div class="step">$\iff (x, y) \in (A \times B) \cap (A \times C)$</div>
+        <div class="ans">∴ $A \times (B \cap C) = (A \times B) \cap (A \times C)$ &nbsp; ∎</div>
+      </div>
+
+      <div class="qtitle"><span class="qnum">Q2(2).</span><span class="qtext">Find the Power set of the Power set of $S = \{1, 2\}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$S = \{1, 2\}$</div>
+        <div class="lbl">Formula</div>
+        <div class="step">$|P(S)| = 2^{|S|} = 2^2 = 4$</div>
+        <div class="step">$|P(P(S))| = 2^{|P(S)|} = 2^4 = 16$</div>
+        <div class="lbl">Step 1 — Find $P(S)$</div>
+        <div class="step">$P(S) = \{\ \emptyset,\ \{1\},\ \{2\},\ \{1,2\}\ \}$</div>
+        <div class="lbl">Step 2 — Find $P(P(S))$ — all 16 subsets</div>
+        <div class="step">$\emptyset,\ \{\emptyset\},\ \{\{1\}\},\ \{\{2\}\},\ \{\{1,2\}\}$</div>
+        <div class="step">$\{\emptyset,\{1\}\},\ \{\emptyset,\{2\}\},\ \{\emptyset,\{1,2\}\}$</div>
+        <div class="step">$\{\{1\},\{2\}\},\ \{\{1\},\{1,2\}\},\ \{\{2\},\{1,2\}\}$</div>
+        <div class="step">$\{\emptyset,\{1\},\{2\}\},\ \{\emptyset,\{1\},\{1,2\}\},\ \{\emptyset,\{2\},\{1,2\}\}$</div>
+        <div class="step">$\{\{1\},\{2\},\{1,2\}\},\ \{\emptyset,\{1\},\{2\},\{1,2\}\}$</div>
+        <div class="ans">∴ $|P(P(S))| = \boxed{16}$ elements (listed above)</div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">In a survey of 60 people, 25 read Newsweek, 26 read Time, 26 read Fortune. Also 9 read both Newsweek and Time, 8 read both Time and Fortune, and 8 read no magazine at all. (1) Find the number of people who read all three magazines. (2) Fill in the correct number in all regions of the Venn diagram. (3) Determine the number of people who read exactly one magazine.</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">Total $= 60,\ |N| = 25,\ |T| = 26,\ |F| = 26$</div>
+        <div class="step">$|N\cap T| = 9,\ |T\cap F| = 8,\ |N\cap F| = 9$ (read both N&amp;F)</div>
+        <div class="step">None $= 8$ &nbsp;⇒&nbsp; $|N\cup T\cup F| = 60 - 8 = 52$</div>
+
+        <div class="lbl">Formula (Inclusion–Exclusion)</div>
+        <div class="step">$|N\cup T\cup F| = |N|+|T|+|F| - |N\cap T| - |T\cap F| - |N\cap F| + |N\cap T\cap F|$</div>
+
+        <div class="lbl">Part (1) — Solve for $x = |N\cap T\cap F|$</div>
+        <div class="step">$52 = 25 + 26 + 26 - 9 - 8 - 9 + x$</div>
+        <div class="step">$52 = 77 - 26 + x$</div>
+        <div class="step">$52 = 51 + x$</div>
+        <div class="ans">$x = \boxed{1}$ person reads all three</div>
+
+        <div class="lbl">Part (2) — Venn diagram regions</div>
+        <div class="step">N only $= 25 - 9 - 9 + 1 = 8$</div>
+        <div class="step">T only $= 26 - 9 - 8 + 1 = 10$</div>
+        <div class="step">F only $= 26 - 8 - 9 + 1 = 10$</div>
+        <div class="step">N∩T only $= 9 - 1 = 8$</div>
+        <div class="step">T∩F only $= 8 - 1 = 7$</div>
+        <div class="step">N∩F only $= 9 - 1 = 8$</div>
+        <div class="step">All three $= 1$, &nbsp; None $= 8$</div>
+
+        <div class="lbl">Part (3) — Exactly one magazine</div>
+        <div class="step">$= 8 + 10 + 10$</div>
+        <div class="ans">$= \boxed{28}$ people</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Consider the set of integers from 1 to 500. (1) How many of these numbers are divisible by 3 or 5 or 11? (2) How many are divisible by 3 or by 11 but not by all of 3, 5 and 11? (3) How many are divisible by 3 or 11 but not by 5?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$U = \{1, 2, \dots, 500\}$. Let $A,B,C$ = multiples of $3, 5, 11$.</div>
+
+        <div class="lbl">Step 1 — Count individual multiples</div>
+        <div class="step">$|A| = \lfloor 500/3 \rfloor = 166$</div>
+        <div class="step">$|B| = \lfloor 500/5 \rfloor = 100$</div>
+        <div class="step">$|C| = \lfloor 500/11 \rfloor = 45$</div>
+        <div class="step">$|A\cap B| = \lfloor 500/15 \rfloor = 33$</div>
+        <div class="step">$|A\cap C| = \lfloor 500/33 \rfloor = 15$</div>
+        <div class="step">$|B\cap C| = \lfloor 500/55 \rfloor = 9$</div>
+        <div class="step">$|A\cap B\cap C| = \lfloor 500/165 \rfloor = 3$</div>
+
+        <div class="lbl">Part (1) — Divisible by 3 OR 5 OR 11</div>
+        <div class="step">$|A\cup B\cup C| = 166 + 100 + 45 - 33 - 15 - 9 + 3$</div>
+        <div class="step">$= 311 - 57 + 3$</div>
+        <div class="ans">$= \boxed{257}$</div>
+
+        <div class="lbl">Part (2) — Div by 3 OR 11 but NOT by all (3, 5, 11)</div>
+        <div class="step">$|A\cup C| = 166 + 45 - 15 = 196$</div>
+        <div class="step">Subtract $|A\cap B\cap C| = 3$</div>
+        <div class="step">$= 196 - 3$</div>
+        <div class="ans">$= \boxed{193}$</div>
+
+        <div class="lbl">Part (3) — Div by 3 OR 11 but NOT by 5</div>
+        <div class="step">$|(A\cup C) \cap B| = |A\cap B| + |C\cap B| - |A\cap B\cap C|$</div>
+        <div class="step">$= 33 + 9 - 3 = 39$</div>
+        <div class="step">Answer $= |A\cup C| - 39 = 196 - 39$</div>
+        <div class="ans">$= \boxed{157}$</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Each of the following defines a relation on the positive integers: (1) $xy$ is the square of an integer; (2) $x + y = 10$. Determine which relations are reflexive, symmetric, antisymmetric and/or transitive.</span></div>
+      <div class="line-block">
+        <div class="lbl">Part (1) — $xRy \iff xy$ is a perfect square</div>
+        <div class="step">Reflexive: $x \cdot x = x^2$ → square ✓</div>
+        <div class="step">Symmetric: $xy = yx$ → if $xy$ square then $yx$ square ✓</div>
+        <div class="step">Transitive: if $xy = a^2$ and $yz = b^2$, then $xy \cdot yz = a^2 b^2$</div>
+        <div class="step">$\Rightarrow y^2 \cdot xz = (ab)^2 \Rightarrow xz = (ab/y)^2$ → square ✓</div>
+        <div class="step">Antisymmetric: $2\cdot 8 = 16$ (sq) and $8\cdot 2 = 16$ (sq), but $2 \neq 8$ ✗</div>
+        <div class="ans">∴ Reflexive, Symmetric, Transitive — <b>Equivalence Relation</b></div>
+
+        <div class="lbl" style="margin-top:18px">Part (2) — $xRy \iff x + y = 10$</div>
+        <div class="step">Reflexive: needs $x + x = 10 \Rightarrow x = 5$ (only) ✗</div>
+        <div class="step">Symmetric: $x + y = y + x = 10$ ✓</div>
+        <div class="step">Antisymmetric: $3R7$ and $7R3$ but $3 \neq 7$ ✗</div>
+        <div class="step">Transitive: $3R7,\ 7R3$ but $3 + 3 = 6 \neq 10$ ✗</div>
+        <div class="ans">∴ <b>Only Symmetric</b></div>
+      </div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Prove that if $R$ is an equivalence relation on a set $A$, then $R^{-1}$ is also an equivalence relation.</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$R$ is reflexive, symmetric, transitive on $A$</div>
+        <div class="step">$R^{-1} = \{(b, a) : (a, b) \in R\}$</div>
+
+        <div class="lbl">Step 1 — Reflexive</div>
+        <div class="step">$\forall a \in A,\ (a, a) \in R$ (given)</div>
+        <div class="step">$\Rightarrow (a, a) \in R^{-1}$ ✓</div>
+
+        <div class="lbl">Step 2 — Symmetric</div>
+        <div class="step">Let $(a, b) \in R^{-1} \Rightarrow (b, a) \in R$</div>
+        <div class="step">By symmetry of $R$: $(a, b) \in R$</div>
+        <div class="step">$\Rightarrow (b, a) \in R^{-1}$ ✓</div>
+
+        <div class="lbl">Step 3 — Transitive</div>
+        <div class="step">Let $(a, b), (b, c) \in R^{-1}$</div>
+        <div class="step">$\Rightarrow (b, a), (c, b) \in R \Rightarrow (c, b), (b, a) \in R$</div>
+        <div class="step">By transitivity of $R$: $(c, a) \in R$</div>
+        <div class="step">$\Rightarrow (a, c) \in R^{-1}$ ✓</div>
+
+        <div class="ans">∴ $R^{-1}$ is reflexive, symmetric, transitive ⇒ Equivalence Relation ∎</div>
+      </div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Check if $\mathbb{N}$ with the &ldquo;divides&rdquo; relation is a POSet.</span></div>
+      <div class="line-block">
+        <div class="lbl">Reflexive</div>
+        <div class="step">$\forall a \in \mathbb{N},\ a \mid a$ (since $a = a \cdot 1$) ✓</div>
+
+        <div class="lbl">Antisymmetric</div>
+        <div class="step">If $a \mid b$ and $b \mid a$ for $a, b \in \mathbb{N}$</div>
+        <div class="step">$\Rightarrow b = ka,\ a = mb \Rightarrow a = mka \Rightarrow mk = 1$</div>
+        <div class="step">$\Rightarrow m = k = 1 \Rightarrow a = b$ ✓</div>
+
+        <div class="lbl">Transitive</div>
+        <div class="step">If $a \mid b$ and $b \mid c$: $b = ka,\ c = mb$</div>
+        <div class="step">$\Rightarrow c = m(ka) = (mk)a \Rightarrow a \mid c$ ✓</div>
+
+        <div class="ans">∴ $(\mathbb{N}, |)$ is a <b>POSet</b> ∎</div>
+      </div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">List the ordered pairs in the relation $R$ from $A = \{0,1,2,3,4\}$ to $B = \{0,1,2,3\}$, where $(a,b) \in R$ if and only if: (1) $a \le b$; (2) $a + b \ge 3$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Part (1) — $aRb \iff a \le b$</div>
+        <div class="step">$a = 0:\ b \in \{0,1,2,3\}$ → $(0,0),(0,1),(0,2),(0,3)$</div>
+        <div class="step">$a = 1:\ b \in \{1,2,3\}$ → $(1,1),(1,2),(1,3)$</div>
+        <div class="step">$a = 2:\ b \in \{2,3\}$ → $(2,2),(2,3)$</div>
+        <div class="step">$a = 3:\ b \in \{3\}$ → $(3,3)$</div>
+        <div class="step">$a = 4:\ b \in \emptyset$ → none</div>
+        <div class="ans">$R = \{(0,0),(0,1),(0,2),(0,3),(1,1),(1,2),(1,3),(2,2),(2,3),(3,3)\}$</div>
+
+        <div class="lbl" style="margin-top:18px">Part (2) — $aRb \iff a + b \ge 3$</div>
+        <div class="step">$a = 0:\ b = 3$ → $(0,3)$</div>
+        <div class="step">$a = 1:\ b \in \{2,3\}$ → $(1,2),(1,3)$</div>
+        <div class="step">$a = 2:\ b \in \{1,2,3\}$ → $(2,1),(2,2),(2,3)$</div>
+        <div class="step">$a = 3:\ b \in \{0,1,2,3\}$ → $(3,0),(3,1),(3,2),(3,3)$</div>
+        <div class="step">$a = 4:\ b \in \{0,1,2,3\}$ → $(4,0),(4,1),(4,2),(4,3)$</div>
+        <div class="ans">$R = \{(0,3),(1,2),(1,3),(2,1),(2,2),(2,3),(3,0),(3,1),(3,2),(3,3),(4,0),(4,1),(4,2),(4,3)\}$</div>
+      </div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Let $f(x)=x+2$, $g(x)=x-2$, $h(x)=3x$ for all $x \in \mathbb{R}$. Find: (1) $g \circ f$, (2) $f \circ g$, (3) $f \circ f$, (4) $h \circ g$, (5) $g \circ g$, (6) $f \circ h$, (7) $h \circ f$, (8) $f \circ h \circ g$.</span></div>
+      <div class="line-block">
+        <div class="lbl">1) $g \circ f$</div>
+        <div class="step">$(g \circ f)(x) = g(f(x)) = g(x+2) = (x+2) - 2 = \boxed{x}$</div>
+
+        <div class="lbl">2) $f \circ g$</div>
+        <div class="step">$(f \circ g)(x) = f(x-2) = (x-2) + 2 = \boxed{x}$</div>
+
+        <div class="lbl">3) $f \circ f$</div>
+        <div class="step">$(f \circ f)(x) = f(x+2) = (x+2) + 2 = \boxed{x + 4}$</div>
+
+        <div class="lbl">4) $h \circ g$</div>
+        <div class="step">$(h \circ g)(x) = h(x-2) = 3(x-2) = \boxed{3x - 6}$</div>
+
+        <div class="lbl">5) $g \circ g$</div>
+        <div class="step">$(g \circ g)(x) = g(x-2) = (x-2) - 2 = \boxed{x - 4}$</div>
+
+        <div class="lbl">6) $f \circ h$</div>
+        <div class="step">$(f \circ h)(x) = f(3x) = 3x + 2 = \boxed{3x + 2}$</div>
+
+        <div class="lbl">7) $h \circ f$</div>
+        <div class="step">$(h \circ f)(x) = h(x+2) = 3(x+2) = \boxed{3x + 6}$</div>
+
+        <div class="lbl">8) $f \circ h \circ g$</div>
+        <div class="step">$(h \circ g)(x) = 3x - 6$</div>
+        <div class="step">$(f \circ h \circ g)(x) = f(3x - 6) = (3x - 6) + 2 = \boxed{3x - 4}$</div>
+      </div>
+    </div>
+
+    <!-- Q10 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Let $A = \{1, 2, 3, \dots, 9\}$. Let $R$ be the relation on $A \times A$ defined by $(a, b)\,R\,(c, d)$ if $a + d = b + c$. Check whether the relation is an equivalence relation or a partial ordering relation.</span></div>
+      <div class="line-block">
+        <div class="lbl">Rewrite</div>
+        <div class="step">$a + d = b + c \iff a - b = c - d$</div>
+
+        <div class="lbl">Reflexive</div>
+        <div class="step">$(a,b)R(a,b):\ a - b = a - b$ ✓</div>
+
+        <div class="lbl">Symmetric</div>
+        <div class="step">If $a - b = c - d$, then $c - d = a - b \Rightarrow (c,d)R(a,b)$ ✓</div>
+
+        <div class="lbl">Transitive</div>
+        <div class="step">If $a - b = c - d$ and $c - d = e - f$</div>
+        <div class="step">$\Rightarrow a - b = e - f \Rightarrow (a,b)R(e,f)$ ✓</div>
+
+        <div class="lbl">Antisymmetric?</div>
+        <div class="step">$(1,2)R(2,3)$ and $(2,3)R(1,2)$ but $(1,2) \neq (2,3)$ ✗</div>
+
+        <div class="ans">∴ <b>Equivalence Relation</b> (not Partial Order)</div>
+      </div>
+    </div>
+
+    <!-- Q11 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q11.</span><span class="qtext">If $\mathbb{R}$ is the set of real numbers, show that the function $f: \mathbb{R} \to \mathbb{R}$ defined by $f(x) = 5x^3 - 1$ is a one-one onto function.</span></div>
+      <div class="line-block">
+        <div class="lbl">One-One (Injective)</div>
+        <div class="step">Assume $f(a) = f(b)$</div>
+        <div class="step">$\Rightarrow 5a^3 - 1 = 5b^3 - 1$</div>
+        <div class="step">$\Rightarrow 5a^3 = 5b^3$</div>
+        <div class="step">$\Rightarrow a^3 = b^3$</div>
+        <div class="step">$\Rightarrow a = b$ ✓ (cube root is unique in $\mathbb{R}$)</div>
+
+        <div class="lbl">Onto (Surjective)</div>
+        <div class="step">Let $y \in \mathbb{R}$. Solve $y = 5x^3 - 1$ for $x$</div>
+        <div class="step">$\Rightarrow x^3 = \dfrac{y + 1}{5}$</div>
+        <div class="step">$\Rightarrow x = \sqrt[3]{\dfrac{y+1}{5}} \in \mathbb{R}$</div>
+        <div class="step">Check: $f(x) = 5\cdot\dfrac{y+1}{5} - 1 = y$ ✓</div>
+
+        <div class="ans">∴ $f$ is one-one and onto ⇒ <b>Bijection</b> ∎</div>
+      </div>
+    </div>
+
+    <!-- Q12 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q12.</span><span class="qtext">Let $f$ be the function from $\{a, b, c, d\}$ to $\{1, 2, 3\}$ defined by $f(a)=3$, $f(b)=2$, $f(c)=1$, $f(d)=3$. Is $f$ an onto function?</span></div>
+      <div class="line-block">
+        <div class="lbl">Step 1 — Compute Range</div>
+        <div class="step">Range $= \{f(a), f(b), f(c), f(d)\} = \{3, 2, 1, 3\} = \{1, 2, 3\}$</div>
+
+        <div class="lbl">Step 2 — Compare with Codomain</div>
+        <div class="step">Codomain $= \{1, 2, 3\}$</div>
+        <div class="step">Range $=$ Codomain ✓</div>
+
+        <div class="ans">∴ $f$ <b>is onto</b> (surjective). Not one-one since $f(a) = f(d) = 3$.</div>
+      </div>
+    </div>
+
+    <!-- Q13 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q13.</span><span class="qtext">Define equivalence class. Let $R$ be the relation on the set of integers $I$ defined by $(x - y)$ is an even integer; find the disjoint equivalence classes.</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">Equivalence class of $a$: $[a] = \{x \in \mathbb{Z} : xRa\} = \{x : x - a \text{ is even}\}$</div>
+
+        <div class="lbl">Step 1 — Parity Observation</div>
+        <div class="step">$x - a$ is even $\iff x$ and $a$ have the same parity</div>
+
+        <div class="lbl">Step 2 — Build Classes</div>
+        <div class="step">$[0] = \{\dots, -4, -2, 0, 2, 4, \dots\}$ (all even integers)</div>
+        <div class="step">$[1] = \{\dots, -3, -1, 1, 3, 5, \dots\}$ (all odd integers)</div>
+
+        <div class="ans">∴ Disjoint equivalence classes $= \boxed{\{[0],\ [1]\}}$ — Even &amp; Odd integers</div>
+      </div>
+    </div>
+
+    <!-- Q14 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q14.</span><span class="qtext">Let $R$ be the relation on the set $\{1, 2, 3, 4, 5\}$ defined by the rule $(x, y) \in R$ if $x = y - 1$. Find $R$ in terms of a relation matrix. Check the relation $R$ for symmetric and irreflexive.</span></div>
+      <div class="line-block">
+        <div class="lbl">Step 1 — List ordered pairs</div>
+        <div class="step">$x = 1: y = 2 \Rightarrow (1,2)$</div>
+        <div class="step">$x = 2: y = 3 \Rightarrow (2,3)$</div>
+        <div class="step">$x = 3: y = 4 \Rightarrow (3,4)$</div>
+        <div class="step">$x = 4: y = 5 \Rightarrow (4,5)$</div>
+        <div class="step">$R = \{(1,2), (2,3), (3,4), (4,5)\}$</div>
+
+        <div class="lbl">Step 2 — Relation Matrix $M_R$</div>
+        <div class="step">$M_R = \begin{pmatrix} 0&amp;1&amp;0&amp;0&amp;0 \\ 0&amp;0&amp;1&amp;0&amp;0 \\ 0&amp;0&amp;0&amp;1&amp;0 \\ 0&amp;0&amp;0&amp;0&amp;1 \\ 0&amp;0&amp;0&amp;0&amp;0 \end{pmatrix}$</div>
+
+        <div class="lbl">Step 3 — Symmetric?</div>
+        <div class="step">$(1,2) \in R$ but $(2,1) \notin R$</div>
+        <div class="ans">∴ <b>Not Symmetric</b></div>
+
+        <div class="lbl">Step 4 — Irreflexive?</div>
+        <div class="step">No pair $(a, a) \in R$ (diagonal of $M_R$ is all $0$)</div>
+        <div class="ans">∴ <b>Irreflexive</b> ✓</div>
+      </div>
+    </div>
+
+    <!-- Q15 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q15.</span><span class="qtext">Let $\mathbb{N}$ be the set of natural numbers. Let $R$ be a relation in $\mathbb{N}$ defined by $xRy$ if and only if $x + y = 18$. Examine the relation for (i) reflexive, (ii) symmetric, (iii) transitive.</span></div>
+      <div class="line-block">
+        <div class="lbl">(i) Reflexive</div>
+        <div class="step">Need $x + x = 18 \Rightarrow x = 9$ (only)</div>
+        <div class="step">For $x \neq 9$, $(x,x) \notin R$</div>
+        <div class="ans">∴ <b>Not Reflexive</b></div>
+
+        <div class="lbl">(ii) Symmetric</div>
+        <div class="step">If $x + y = 18 \Rightarrow y + x = 18$</div>
+        <div class="ans">∴ <b>Symmetric</b> ✓</div>
+
+        <div class="lbl">(iii) Transitive</div>
+        <div class="step">Take $x = 5,\ y = 13:\ 5 + 13 = 18$ ✓</div>
+        <div class="step">Take $y = 13,\ z = 5:\ 13 + 5 = 18$ ✓</div>
+        <div class="step">But $x + z = 5 + 5 = 10 \neq 18$ ✗</div>
+        <div class="ans">∴ <b>Not Transitive</b></div>
+      </div>
+    </div>
+
+    <!-- Q16 -->
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q16.</span><span class="qtext">Let $R$ be a relation defined in $A = \{1, 2, 3, 5, 7, 9\}$ as $R = \{(1,1),(1,3),(1,5),(1,7),(2,2),(3,1),(3,3),(3,5),(3,7),(5,1),(5,3),(5,5),(5,7),(7,1),(7,3),(7,5),(7,7),(9,9)\}$. Find the partitions of $A$ based on the equivalence relation $R$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Step 1 — Find class $[1]$</div>
+        <div class="step">From $R$: $1$ is related to $1, 3, 5, 7$</div>
+        <div class="step">$\Rightarrow [1] = \{1, 3, 5, 7\}$</div>
+
+        <div class="lbl">Step 2 — Find class $[2]$</div>
+        <div class="step">$2$ only related to $2$</div>
+        <div class="step">$\Rightarrow [2] = \{2\}$</div>
+
+        <div class="lbl">Step 3 — Find class $[9]$</div>
+        <div class="step">$9$ only related to $9$</div>
+        <div class="step">$\Rightarrow [9] = \{9\}$</div>
+
+        <div class="ans">∴ Partition of $A = \big\{\ \{1,3,5,7\},\ \{2\},\ \{9\}\ \big\}$</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- ASSIGNMENT 2 -->
+<!-- ====================================================================== -->
+<section id="a2" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Assignments</button>
+    <h2 class="page-title">Assignment 2 — Counting, Recursion &amp; Induction</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Define: (1) Recurrence relation, (2) Well-Ordering Principle, (3) Pigeonhole Principle.</span></div>
+      <div class="line-block">
+        <div class="lbl">(1) Recurrence Relation</div>
+        <div class="step">An equation that defines each term of a sequence as a function of one or more previous terms.</div>
+        <div class="step">Example: $a_n = a_{n-1} + a_{n-2}$ with $a_0 = 0,\ a_1 = 1$ (Fibonacci).</div>
+
+        <div class="lbl">(2) Well-Ordering Principle</div>
+        <div class="step">Every non-empty subset $S \subseteq \mathbb{N}$ has a least element.</div>
+        <div class="step">i.e. $\exists m \in S$ such that $m \le x,\ \forall x \in S$.</div>
+
+        <div class="lbl">(3) Pigeonhole Principle</div>
+        <div class="step">If $n + 1$ objects are placed into $n$ boxes, at least one box contains $\ge 2$ objects.</div>
+        <div class="step">Generalised: with $N$ objects in $k$ boxes, some box has $\ge \lceil N/k \rceil$ objects.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">How many passwords can be created using 5 letters from the alphabet?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">Length $= 5$,&nbsp; alphabet size $= 26$,&nbsp; repetition allowed.</div>
+        <div class="lbl">Formula</div>
+        <div class="step">$N = 26^5$ (Product rule)</div>
+        <div class="lbl">Step-by-Step</div>
+        <div class="step">$26^2 = 676$</div>
+        <div class="step">$26^3 = 676 \times 26 = 17{,}576$</div>
+        <div class="step">$26^4 = 17{,}576 \times 26 = 456{,}976$</div>
+        <div class="step">$26^5 = 456{,}976 \times 26 = 11{,}881{,}376$</div>
+        <div class="ans">∴ $N = \boxed{11{,}881{,}376}$ passwords</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Give a recursive definition for the factorial function $f(n) = n!$, then find $f(5)$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Recursive Definition</div>
+        <div class="step">Base case: $f(0) = 1$</div>
+        <div class="step">Recursive step: $f(n) = n \cdot f(n-1),\ \forall n \ge 1$</div>
+
+        <div class="lbl">Compute $f(5)$ step-by-step</div>
+        <div class="step">$f(1) = 1 \cdot f(0) = 1 \cdot 1 = 1$</div>
+        <div class="step">$f(2) = 2 \cdot f(1) = 2 \cdot 1 = 2$</div>
+        <div class="step">$f(3) = 3 \cdot f(2) = 3 \cdot 2 = 6$</div>
+        <div class="step">$f(4) = 4 \cdot f(3) = 4 \cdot 6 = 24$</div>
+        <div class="step">$f(5) = 5 \cdot f(4) = 5 \cdot 24 = 120$</div>
+        <div class="ans">∴ $f(5) = \boxed{120}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">How many ways are there to select six players from a 10-member tennis team to make a trip to a match at another college?</span></div>
+      <div class="line-block">
+        <div class="lbl">Formula (Combinations)</div>
+        <div class="step">$C(n, r) = \dfrac{n!}{r!\,(n-r)!}$</div>
+
+        <div class="lbl">Substitute $n = 10,\ r = 6$</div>
+        <div class="step">$C(10, 6) = \dfrac{10!}{6! \cdot 4!}$</div>
+        <div class="step">$= \dfrac{10 \cdot 9 \cdot 8 \cdot 7}{4!}$</div>
+        <div class="step">$= \dfrac{5040}{24}$</div>
+        <div class="step">$= 210$</div>
+        <div class="ans">∴ Number of ways $= \boxed{210}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">A company has 30 employees, 10 are assigned to Task A, 15 to Task B, and 5 are assigned to both. How many employees are assigned to at least one task?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$|A| = 10,\ |B| = 15,\ |A \cap B| = 5$</div>
+        <div class="lbl">Formula</div>
+        <div class="step">$|A \cup B| = |A| + |B| - |A \cap B|$</div>
+        <div class="lbl">Substitute</div>
+        <div class="step">$= 10 + 15 - 5$</div>
+        <div class="step">$= 20$</div>
+        <div class="ans">∴ Employees on at least one task $= \boxed{20}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Find $\gcd(231, 1820)$ using the Euclidean algorithm.</span></div>
+      <div class="line-block">
+        <div class="lbl">Algorithm: $\gcd(a,b) = \gcd(b,\ a \bmod b)$</div>
+        <div class="step">$1820 = 7 \cdot 231 + 203$ &nbsp; (since $7 \cdot 231 = 1617$, $1820 - 1617 = 203$)</div>
+        <div class="step">$231 = 1 \cdot 203 + 28$</div>
+        <div class="step">$203 = 7 \cdot 28 + 7$ &nbsp; (since $7 \cdot 28 = 196$, $203 - 196 = 7$)</div>
+        <div class="step">$28 = 4 \cdot 7 + 0$</div>
+        <div class="step">Last non-zero remainder $= 7$</div>
+        <div class="ans">∴ $\gcd(231, 1820) = \boxed{7}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">There are 40 male and 30 female faculties in a college. The principal wants to select one faculty (either male or female) for examination duty. In how many ways can this selection be done?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">Males $= 40,\ $ Females $= 30$</div>
+        <div class="lbl">Rule of Sum</div>
+        <div class="step">If two tasks are mutually exclusive, total ways $= n_1 + n_2$</div>
+        <div class="lbl">Compute</div>
+        <div class="step">$= 40 + 30$</div>
+        <div class="ans">$= \boxed{70}$ ways</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">In a college, there are 40 male and 30 female faculties. The principal wants to select one male and one female faculty to accompany the students going for a picnic. In how many ways can the principal do this selection?</span></div>
+      <div class="line-block">
+        <div class="lbl">Rule of Product</div>
+        <div class="step">If two independent tasks have $n_1,\ n_2$ ways, total $= n_1 \times n_2$</div>
+        <div class="lbl">Compute</div>
+        <div class="step">$= 40 \times 30$</div>
+        <div class="ans">$= \boxed{1200}$ ways</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Use mathematical induction to prove that $7(2^n) + 2(3^{n-3}) \cdot 3^{(n-1)}$ is divisible by 25 for $n \in \mathbb{N}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Standard Induction Template (apply to the printed expression in your sheet)</div>
+        <div class="step"><b>Step 1 — Base case:</b> verify the statement $P(1)$ is divisible by 25.</div>
+        <div class="step"><b>Step 2 — Inductive hypothesis:</b> assume $P(k)$ holds, i.e. expression $= 25m$ for some integer $m$.</div>
+        <div class="step"><b>Step 3 — Inductive step:</b> show $P(k+1)$ also $= 25 \cdot (\text{integer})$, by:</div>
+        <div class="step">$\quad$ (a) write $P(k+1)$ in terms of $P(k)$</div>
+        <div class="step">$\quad$ (b) substitute $P(k) = 25m$ from hypothesis</div>
+        <div class="step">$\quad$ (c) factor 25 out of remaining terms</div>
+        <div class="step"><b>Step 4 — Conclusion:</b> $\therefore$ by PMI, $25 \mid \text{expression for all } n \in \mathbb{N}$. ∎</div>
+        <div class="ans">Use this 4-step structure on your exact printed expression.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Use mathematical induction to prove that $1^2 + 3^2 + 5^2 + \dots + (2n-1)^2 = \dfrac{n(2n-1)(2n+1)}{3}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Step 1 — Base case $n = 1$</div>
+        <div class="step">LHS $= 1^2 = 1$</div>
+        <div class="step">RHS $= \dfrac{1 \cdot 1 \cdot 3}{3} = 1$ ✓</div>
+
+        <div class="lbl">Step 2 — Inductive hypothesis</div>
+        <div class="step">Assume true for $n = k$:</div>
+        <div class="step">$1^2 + 3^2 + \dots + (2k-1)^2 = \dfrac{k(2k-1)(2k+1)}{3}$</div>
+
+        <div class="lbl">Step 3 — Prove for $n = k + 1$</div>
+        <div class="step">Add $(2(k+1) - 1)^2 = (2k+1)^2$ to both sides:</div>
+        <div class="step">LHS $= \dfrac{k(2k-1)(2k+1)}{3} + (2k+1)^2$</div>
+        <div class="step">$= \dfrac{(2k+1)\big[k(2k-1) + 3(2k+1)\big]}{3}$</div>
+        <div class="step">$= \dfrac{(2k+1)\big[2k^2 - k + 6k + 3\big]}{3}$</div>
+        <div class="step">$= \dfrac{(2k+1)(2k^2 + 5k + 3)}{3}$</div>
+        <div class="step">Factor $2k^2 + 5k + 3 = (k+1)(2k+3)$</div>
+        <div class="step">$= \dfrac{(k+1)(2k+1)(2k+3)}{3}$</div>
+        <div class="step">$= \dfrac{(k+1)\big(2(k+1) - 1\big)\big(2(k+1) + 1\big)}{3}$ ✓</div>
+
+        <div class="lbl">Step 4 — Conclusion</div>
+        <div class="ans">∴ By Principle of Mathematical Induction, the formula holds $\forall n \in \mathbb{N}$. ∎</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- ASSIGNMENT 3 -->
+<!-- ====================================================================== -->
+<section id="a3" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Assignments</button>
+    <h2 class="page-title">Assignment 3 — Propositional Logic</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Define: (1) Proposition, (2) Logical connectives, (3) Well-formed formula.</span></div>
+      <div class="line-block">
+        <div class="lbl">Proposition</div>
+        <div class="step">A declarative statement that is either True or False, but not both.</div>
+        <div class="step">Example: "$2 + 2 = 4$" is a proposition (True).</div>
+
+        <div class="lbl">Logical Connectives</div>
+        <div class="step">$\neg$ — NOT (Negation)</div>
+        <div class="step">$\wedge$ — AND (Conjunction)</div>
+        <div class="step">$\vee$ — OR (Disjunction)</div>
+        <div class="step">$\to$ — IMPLIES</div>
+        <div class="step">$\leftrightarrow$ — IF AND ONLY IF (Biconditional)</div>
+
+        <div class="lbl">Well-Formed Formula (WFF)</div>
+        <div class="step">A finite expression built using propositional variables, connectives, and parentheses by formation rules.</div>
+        <div class="step">Example: $(p \wedge q) \to \neg r$ is a WFF.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Translate into symbolic logic: (a) If it rains, then the ground is wet. (b) Either Ram studies or he fails. (c) Not both A and B are true.</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) "If it rains, then the ground is wet"</div>
+        <div class="step">Let $r:$ it rains, &nbsp; $w:$ ground is wet</div>
+        <div class="ans">$r \to w$</div>
+
+        <div class="lbl">(b) "Either Ram studies or he fails"</div>
+        <div class="step">Let $s:$ Ram studies, &nbsp; $f:$ Ram fails</div>
+        <div class="ans">$s \vee f$</div>
+
+        <div class="lbl">(c) "Not both A and B are true"</div>
+        <div class="ans">$\neg(A \wedge B) \equiv \neg A \vee \neg B$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Let $p$: &ldquo;It is sunny&rdquo;, $q$: &ldquo;I go outside&rdquo;. Write symbolic expressions for: (a) If $p$ then $q$; (b) $q$ only if $p$; (c) $p$ if and only if $q$.</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) If $p$ then $q$</div>
+        <div class="ans">$p \to q$</div>
+        <div class="lbl">(b) $q$ only if $p$</div>
+        <div class="step">"$q$ only if $p$" means $q$ implies $p$</div>
+        <div class="ans">$q \to p$</div>
+        <div class="lbl">(c) $p$ if and only if $q$</div>
+        <div class="ans">$p \leftrightarrow q$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Construct a truth table for $(p \wedge q) \to (\neg p \vee q)$.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|c|}\hline p &amp; q &amp; p\wedge q &amp; \neg p &amp; \neg p \vee q &amp; (p\wedge q)\to(\neg p \vee q) \\ \hline T &amp; T &amp; T &amp; F &amp; T &amp; T \\ T &amp; F &amp; F &amp; F &amp; F &amp; T \\ F &amp; T &amp; F &amp; T &amp; T &amp; T \\ F &amp; F &amp; F &amp; T &amp; T &amp; T \\ \hline \end{array}$</div>
+        <div class="ans">All values $T$ ⇒ statement is a <b>Tautology</b>.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Verify using truth table: $p \to q \equiv \neg p \vee q$.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|}\hline p &amp; q &amp; p\to q &amp; \neg p &amp; \neg p \vee q \\ \hline T &amp; T &amp; T &amp; F &amp; T \\ T &amp; F &amp; F &amp; F &amp; F \\ F &amp; T &amp; T &amp; T &amp; T \\ F &amp; F &amp; T &amp; T &amp; T \\ \hline \end{array}$</div>
+        <div class="ans">Columns $p \to q$ and $\neg p \vee q$ are identical ⇒ <b>Equivalent</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Determine whether the statement $(p \to q) \vee (q \to p)$ is a tautology.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|}\hline p &amp; q &amp; p\to q &amp; q\to p &amp; (p\to q)\vee(q\to p) \\ \hline T &amp; T &amp; T &amp; T &amp; T \\ T &amp; F &amp; F &amp; T &amp; T \\ F &amp; T &amp; T &amp; F &amp; T \\ F &amp; F &amp; T &amp; T &amp; T \\ \hline \end{array}$</div>
+        <div class="ans">All values $T$ ⇒ <b>Yes, it is a Tautology</b>.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Test the validity of the argument: $p \to q$; $q \to r$; therefore $p \to r$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Step 1 — Assume both premises true and assume $p$ is true</div>
+        <div class="step">From $p$ and $p \to q$, by Modus Ponens: $q$</div>
+        <div class="step">From $q$ and $q \to r$, by Modus Ponens: $r$</div>
+        <div class="lbl">Step 2 — Conclusion</div>
+        <div class="step">$p \Rightarrow r$, hence $p \to r$ holds.</div>
+        <div class="ans">∴ Argument is <b>Valid</b> (Hypothetical Syllogism) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Prove using laws: $\neg(p \wedge q) \equiv \neg p \vee \neg q$.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|c|c|}\hline p &amp; q &amp; p\wedge q &amp; \neg(p\wedge q) &amp; \neg p &amp; \neg q &amp; \neg p \vee \neg q \\ \hline T &amp; T &amp; T &amp; F &amp; F &amp; F &amp; F \\ T &amp; F &amp; F &amp; T &amp; F &amp; T &amp; T \\ F &amp; T &amp; F &amp; T &amp; T &amp; F &amp; T \\ F &amp; F &amp; F &amp; T &amp; T &amp; T &amp; T \\ \hline \end{array}$</div>
+        <div class="ans">Columns $\neg(p \wedge q)$ and $\neg p \vee \neg q$ match ⇒ <b>Equivalent</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Use inference rules to show: $p \vee q$, $\neg p \;\Rightarrow\; q$.</span></div>
+      <div class="line-block">
+        <div class="step">1.&nbsp; $p \vee q$ &nbsp; (Premise)</div>
+        <div class="step">2.&nbsp; $\neg p$ &nbsp; (Premise)</div>
+        <div class="step">3.&nbsp; $\therefore q$ &nbsp; (Disjunctive Syllogism on 1, 2)</div>
+        <div class="ans">∴ $q$ is derived ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Show that $(p \to q) \wedge (q \to r) \models (p \to r)$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Direct Proof</div>
+        <div class="step">Assume $p$ is true.</div>
+        <div class="step">From $(p \to q)$ and $p$: by Modus Ponens, $q$.</div>
+        <div class="step">From $(q \to r)$ and $q$: by Modus Ponens, $r$.</div>
+        <div class="step">$\therefore p \Rightarrow r$, i.e. $p \to r$.</div>
+        <div class="ans">∴ $(p \to q) \wedge (q \to r) \models (p \to r)$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q11.</span><span class="qtext">Evaluate the correctness of the loop: <code>sum = 0; for i = 1 to n: sum = sum + i</code>. Identify the loop invariant.</span></div>
+      <div class="line-block">
+        <div class="lbl">Code</div>
+        <div class="step">sum = 0</div>
+        <div class="step">for i = 1 to n: &nbsp; sum = sum + i</div>
+
+        <div class="lbl">Loop Invariant</div>
+        <div class="step">Before each iteration $i$: &nbsp; $\text{sum} = 1 + 2 + \dots + (i-1) = \dfrac{(i-1)i}{2}$</div>
+
+        <div class="lbl">Step 1 — Initialization ($i = 1$)</div>
+        <div class="step">$\text{sum} = 0 = \dfrac{0 \cdot 1}{2}$ ✓</div>
+
+        <div class="lbl">Step 2 — Maintenance</div>
+        <div class="step">Assume invariant holds before iteration $i$: $\text{sum} = \dfrac{(i-1)i}{2}$</div>
+        <div class="step">After $\text{sum} = \text{sum} + i$:</div>
+        <div class="step">$\text{sum} = \dfrac{(i-1)i}{2} + i = \dfrac{(i-1)i + 2i}{2} = \dfrac{i(i+1)}{2}$ ✓</div>
+
+        <div class="lbl">Step 3 — Termination ($i = n + 1$)</div>
+        <div class="step">$\text{sum} = \dfrac{n(n+1)}{2}$</div>
+
+        <div class="ans">∴ Loop correctly computes $\sum_{k=1}^{n} k = \dfrac{n(n+1)}{2}$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q12.</span><span class="qtext">Explain De Morgan&rsquo;s Laws with examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">Law 1</div>
+        <div class="step">$\neg(p \wedge q) \equiv \neg p \vee \neg q$</div>
+        <div class="step note">Example: NOT (raining AND cold) ≡ (not raining) OR (not cold).</div>
+
+        <div class="lbl">Law 2</div>
+        <div class="step">$\neg(p \vee q) \equiv \neg p \wedge \neg q$</div>
+        <div class="step note">Example: NOT (passed math OR passed physics) ≡ failed math AND failed physics.</div>
+
+        <div class="lbl">Set Form</div>
+        <div class="step">$\overline{A \cup B} = \overline{A} \cap \overline{B}$</div>
+        <div class="step">$\overline{A \cap B} = \overline{A} \cup \overline{B}$</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- ASSIGNMENT 5 -->
+<!-- ====================================================================== -->
+<section id="a5" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('selector')">← Back to Assignments</button>
+    <h2 class="page-title">Assignment 5 — Graph Theory</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">What is the maximum number of vertices in a graph with 35 edges and all vertices of degree at least 3?</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$|E| = 35,\ \delta(G) \ge 3$</div>
+        <div class="lbl">Formula (Handshake Lemma)</div>
+        <div class="step">$\sum_{v \in V} \deg(v) = 2|E|$</div>
+        <div class="lbl">Apply</div>
+        <div class="step">$\sum \deg(v) = 2 \cdot 35 = 70$</div>
+        <div class="step">If every vertex has $\deg \ge 3$: &nbsp; $3n \le 70$</div>
+        <div class="step">$n \le \dfrac{70}{3} = 23.33\dots$</div>
+        <div class="ans">∴ Maximum number of vertices $= \boxed{23}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Prove that if $G$ is self-complementary, then $G$ has $4k$ or $4k+1$ vertices, where $k$ is an integer.</span></div>
+      <div class="line-block">
+        <div class="lbl">Given</div>
+        <div class="step">$G \cong \overline{G}$ (self-complementary)</div>
+        <div class="lbl">Step 1 — Edge equality</div>
+        <div class="step">$|E(G)| = |E(\overline{G})|$</div>
+        <div class="lbl">Step 2 — Sum of edges</div>
+        <div class="step">$|E(G)| + |E(\overline{G})| = \binom{n}{2} = \dfrac{n(n-1)}{2}$</div>
+        <div class="lbl">Step 3 — Solve</div>
+        <div class="step">$2|E(G)| = \dfrac{n(n-1)}{2}$</div>
+        <div class="step">$|E(G)| = \dfrac{n(n-1)}{4}$</div>
+        <div class="lbl">Step 4 — Divisibility</div>
+        <div class="step">For $|E(G)| \in \mathbb{Z}$, need $4 \mid n(n-1)$</div>
+        <div class="step">Since $n$ and $n - 1$ are consecutive (one is even), either $4 \mid n$ or $4 \mid (n-1)$</div>
+        <div class="ans">∴ $n \equiv 0 \pmod 4$ or $n \equiv 1 \pmod 4$, i.e. $n = 4k$ or $n = 4k + 1$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Draw all simple graphs of three vertices.</span></div>
+      <div class="line-block">
+        <div class="lbl">Possible edge counts: 0, 1, 2, 3</div>
+        <div class="step">(i) 0 edges: &nbsp; $\bullet\ \ \bullet\ \ \bullet$ (Null graph $N_3$)</div>
+        <div class="step">(ii) 1 edge: &nbsp; $\bullet$—$\bullet$ &nbsp; $\bullet$</div>
+        <div class="step">(iii) 2 edges: &nbsp; $\bullet$—$\bullet$—$\bullet$ (Path $P_3$)</div>
+        <div class="step">(iv) 3 edges: &nbsp; Triangle $K_3$ (every pair connected)</div>
+        <div class="ans">∴ Total $= \boxed{4}$ non-isomorphic simple graphs</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Draw a graph $G=(V,E)$ where $V = \{A, B, C, D, E\}$ and $E = \{(A,B),(A,C),(A,D),(B,C),(B,E),(C,E),(C,D)\}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Edges</div>
+        <div class="step">$E = \{(A,B),(A,C),(A,D),(B,C),(B,E),(C,E),(C,D)\}$,&nbsp; $|E| = 7$</div>
+
+        <div class="lbl">Degree of each vertex</div>
+        <div class="step">$\deg(A) = 3$ &nbsp; (B, C, D)</div>
+        <div class="step">$\deg(B) = 3$ &nbsp; (A, C, E)</div>
+        <div class="step">$\deg(C) = 4$ &nbsp; (A, B, D, E)</div>
+        <div class="step">$\deg(D) = 2$ &nbsp; (A, C)</div>
+        <div class="step">$\deg(E) = 2$ &nbsp; (B, C)</div>
+
+        <div class="lbl">Handshake Verification</div>
+        <div class="step">$\sum \deg = 3+3+4+2+2 = 14 = 2 \cdot 7$ ✓</div>
+
+        <div class="lbl">Sketch</div>
+        <div class="step">$\begin{array}{c} A \\ /|\backslash \\ B - C - D \\ \backslash\ |\ \\ \ \ E\ \ \end{array}$ &nbsp; (A connects B,C,D ; B connects C,E ; C connects D,E)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Show that the maximum number of edges in a simple graph with $n$ vertices is $\dfrac{n(n-1)}{2}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Argument</div>
+        <div class="step">In a simple graph: no loops, no multiple edges.</div>
+        <div class="step">Each pair of distinct vertices contributes at most one edge.</div>
+        <div class="step">Number of unordered pairs $= \binom{n}{2}$</div>
+        <div class="step">$\binom{n}{2} = \dfrac{n!}{2!(n-2)!} = \dfrac{n(n-1)}{2}$</div>
+        <div class="ans">∴ Max edges $= \boxed{\dfrac{n(n-1)}{2}}$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Can a graph with seven vertices be isomorphic to its complement?</span></div>
+      <div class="line-block">
+        <div class="lbl">Apply result of Q2</div>
+        <div class="step">Required: $n \equiv 0$ or $1 \pmod 4$</div>
+        <div class="step">Check $n = 7$: &nbsp; $7 \bmod 4 = 3$</div>
+        <div class="step">$7 \neq 4k$ and $7 \neq 4k + 1$</div>
+        <div class="ans">∴ <b>NO</b>, no self-complementary graph on 7 vertices exists.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Show that a simple graph $G$ with at least two vertices contains two vertices of the same degree.</span></div>
+      <div class="line-block">
+        <div class="lbl">Possible degrees</div>
+        <div class="step">In a simple graph, $\deg(v) \in \{0, 1, 2, \dots, n-1\}$ ($n$ values)</div>
+
+        <div class="lbl">Key observation</div>
+        <div class="step">A vertex of degree $0$ (isolated) and a vertex of degree $n-1$ (joined to all) cannot both exist.</div>
+        <div class="step">So only $n - 1$ distinct degree values are actually possible.</div>
+
+        <div class="lbl">Pigeonhole Principle</div>
+        <div class="step">$n$ vertices placed into $n - 1$ possible degree values</div>
+        <div class="step">$\Rightarrow$ at least two vertices share a degree.</div>
+
+        <div class="ans">∴ Two vertices of equal degree always exist ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Prove the theorem: a simple graph with $n$ vertices and $k$ components can have at most $\dfrac{(n-k)(n-k+1)}{2}$ edges.</span></div>
+      <div class="line-block">
+        <div class="lbl">Strategy</div>
+        <div class="step">Concentrate edges in one large component; keep other $k-1$ components as isolated vertices.</div>
+        <div class="step">Large component has $n - (k-1) = n - k + 1$ vertices.</div>
+
+        <div class="lbl">Apply Q5 formula to large component</div>
+        <div class="step">Max edges $= \binom{n-k+1}{2} = \dfrac{(n-k+1)(n-k)}{2}$</div>
+
+        <div class="ans">∴ Max edges $= \boxed{\dfrac{(n-k)(n-k+1)}{2}}$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Draw a graph $G = (V, E)$ where $V = \{v_1, v_2, v_3, v_4, v_5\}$ and $E = \{(v_1,v_2),(v_2,v_3),(v_3,v_4),(v_4,v_5),(v_5,v_1)\}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Edges</div>
+        <div class="step">$E = \{(v_1,v_2),(v_2,v_3),(v_3,v_4),(v_4,v_5),(v_5,v_1)\}$</div>
+        <div class="lbl">Properties</div>
+        <div class="step">Every vertex has degree $2$ ⇒ $2$-regular</div>
+        <div class="step">Connected, planar, Eulerian, Hamiltonian</div>
+        <div class="lbl">Sketch</div>
+        <div class="step">$\begin{array}{c} v_1 \\ /\ \ \backslash \\ v_5\ \ \ \ v_2 \\ |\ \ \ \ \ \ | \\ v_4 - v_3 \end{array}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Show that the maximum number of edges in a complete bipartite graph $K_{m,n}$ on $n$ vertices is $m \cdot n$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">Partition $V = X \cup Y,\ |X| = m,\ |Y| = n$; every $x \in X$ joined to every $y \in Y$.</div>
+        <div class="lbl">Count</div>
+        <div class="step">Each of $m$ vertices in $X$ connects to all $n$ in $Y$: $m \cdot n$ edges.</div>
+        <div class="ans">∴ $|E(K_{m,n})| = \boxed{m \cdot n}$ &nbsp;&nbsp; (max for $n$-vertex bipartite: $\lfloor n^2/4 \rfloor$)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q11.</span><span class="qtext">Give an example of: (a) a bipartite Platonic graph, (b) a complete graph that is a wheel, (c) a complete Platonic graph.</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) Bipartite Platonic graph</div>
+        <div class="step">The <b>Cube</b> $Q_3$ (3-dim hypercube) — 8 vertices, 12 edges, bipartite (2-colourable).</div>
+
+        <div class="lbl">(b) Complete graph that is a Wheel</div>
+        <div class="step">$K_4 \cong W_3$ — wheel with hub + 3 spokes triangle.</div>
+
+        <div class="lbl">(c) Complete Platonic graph</div>
+        <div class="step">The <b>Tetrahedron</b> $K_4$ — 4 vertices, 6 edges, every pair adjacent.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q12.</span><span class="qtext">Is the complete graph $K_n$ Eulerian?</span></div>
+      <div class="line-block">
+        <div class="lbl">Theorem</div>
+        <div class="step">A connected graph is Eulerian $\iff$ every vertex has even degree.</div>
+        <div class="lbl">Apply</div>
+        <div class="step">In $K_n$, every vertex has degree $n - 1$</div>
+        <div class="step">$n - 1$ even $\iff n$ odd</div>
+        <div class="ans">∴ $K_n$ is Eulerian $\iff n$ is <b>odd</b> $(n \ge 3)$. E.g. $K_3,\ K_5$ ✓; $K_4$ ✗.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q13.</span><span class="qtext">For what value of $n$ is the graph $K_n$ (and cycle $C_n$) Eulerian?</span></div>
+      <div class="line-block">
+        <div class="step">From Q12: $K_n$ Eulerian $\iff n$ is odd, $n \ge 3$.</div>
+        <div class="step">For cycle $C_n$: every vertex has degree 2 (even), so $C_n$ is Eulerian for all $n \ge 3$.</div>
+        <div class="ans">∴ $K_n$: $n$ odd. &nbsp;&nbsp; $C_n$: every $n \ge 3$.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q14.</span><span class="qtext">Define the Eccentricity of a vertex.</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">For a connected graph $G$ and vertex $v \in V(G)$:</div>
+        <div class="step">$e(v) = \max_{u \in V(G)} d(v, u)$</div>
+        <div class="step">where $d(v, u)$ = shortest-path distance.</div>
+
+        <div class="lbl">Related terms</div>
+        <div class="step">Radius: $r(G) = \min_{v} e(v)$</div>
+        <div class="step">Diameter: $\text{diam}(G) = \max_{v} e(v)$</div>
+        <div class="step">Centre: vertex $v$ with $e(v) = r(G)$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q15.</span><span class="qtext">Give an example of a tree which has: (a) one centre, (b) two centres.</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) One centre — Path $P_3$: $a$ — $b$ — $c$</div>
+        <div class="step">$e(a) = 2,\ e(b) = 1,\ e(c) = 2$</div>
+        <div class="step">$r(G) = 1$; centre $= \{b\}$</div>
+        <div class="ans">∴ Tree with one centre = $P_3$</div>
+
+        <div class="lbl">(b) Two centres — Path $P_4$: $a$ — $b$ — $c$ — $d$</div>
+        <div class="step">$e(a) = 3,\ e(b) = 2,\ e(c) = 2,\ e(d) = 3$</div>
+        <div class="step">$r(G) = 2$; centre $= \{b, c\}$</div>
+        <div class="ans">∴ Tree with two centres = $P_4$</div>
+
+        <div class="lbl">Jordan's Theorem</div>
+        <div class="step note">Every tree has either exactly one centre or exactly two adjacent centres.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- TUTORIAL 1 -->
+<!-- ====================================================================== -->
+<section id="t1" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-tutorials')">← Back to Tutorials</button>
+    <h2 class="page-title">Tutorial 1 — Sets, Relations &amp; Functions</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">List the ordered pairs in the relation $R$ from $A = \{0,1,2,3,4\}$ to $B = \{0,1,2,3\}$, where $(a,b) \in R$ if and only if (a) $\gcd(a,b) = 1$, (b) $\text{lcm}(a,b) = 2$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Part (a) — $\gcd(a, b) = 1$</div>
+        <div class="step">Use convention $\gcd(0, n) = n$, so $\gcd(0, b) = 1 \Rightarrow b = 1$</div>
+        <div class="step">$a = 0:\ b = 1 \Rightarrow (0, 1)$</div>
+        <div class="step">$a = 1:\ \gcd(1, b) = 1$ for all $b \Rightarrow (1, 0),(1, 1),(1, 2),(1, 3)$</div>
+        <div class="step">$a = 2:\ b \in \{1, 3\} \Rightarrow (2, 1),(2, 3)$</div>
+        <div class="step">$a = 3:\ b \in \{1, 2\} \Rightarrow (3, 1),(3, 2)$</div>
+        <div class="step">$a = 4:\ b \in \{1, 3\} \Rightarrow (4, 1),(4, 3)$</div>
+        <div class="ans">$R = \{(0,1),(1,0),(1,1),(1,2),(1,3),(2,1),(2,3),(3,1),(3,2),(4,1),(4,3)\}$</div>
+
+        <div class="lbl">Part (b) — $\text{lcm}(a, b) = 2$</div>
+        <div class="step">Need both $a, b$ to divide $2$ and their lcm $= 2$</div>
+        <div class="step">Possible pairs: $a, b \in \{1, 2\}$ with at least one equal to $2$</div>
+        <div class="step">$(1, 2),\ (2, 1),\ (2, 2)$</div>
+        <div class="ans">$R = \{(1,2),\ (2,1),\ (2,2)\}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Determine whether the relation $R$ on the set of all real numbers is reflexive, symmetric, antisymmetric, and/or transitive, where $(x,y) \in R$ iff: (a) $x + y = 0$; (b) $x - y$ is a rational number.</span></div>
+      <div class="line-block">
+        <div class="lbl">Part (a) — $x + y = 0$</div>
+        <div class="step">Reflexive: needs $x + x = 0 \Rightarrow x = 0$ only ✗</div>
+        <div class="step">Symmetric: $x + y = y + x = 0$ ✓</div>
+        <div class="step">Antisymmetric: $(1, -1),(-1, 1)$ both in $R$ but $1 \neq -1$ ✗</div>
+        <div class="step">Transitive: $(1,-1),(-1,1)$ in $R$ but $1 + 1 = 2 \neq 0$ ✗</div>
+        <div class="ans">∴ Only <b>Symmetric</b></div>
+
+        <div class="lbl">Part (b) — $x - y \in \mathbb{Q}$</div>
+        <div class="step">Reflexive: $x - x = 0 \in \mathbb{Q}$ ✓</div>
+        <div class="step">Symmetric: $x - y \in \mathbb{Q} \Rightarrow y - x = -(x-y) \in \mathbb{Q}$ ✓</div>
+        <div class="step">Antisymmetric: $(1,2),(2,1) \in R$ but $1 \neq 2$ ✗</div>
+        <div class="step">Transitive: $x - y, y - z \in \mathbb{Q} \Rightarrow x - z = (x-y)+(y-z) \in \mathbb{Q}$ ✓</div>
+        <div class="ans">∴ <b>Equivalence Relation</b> (reflexive, symmetric, transitive)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Consider these relations on the set of integers: $R_1 = \{(a,b) \mid a \le b\}$, $R_2 = \{(a,b) \mid a > b\}$, $R_3 = \{(a,b) \mid a = b \text{ or } a = -b\}$, $R_4 = \{(a,b) \mid a = b\}$, $R_5 = \{(a,b) \mid a = b + 1\}$, $R_6 = \{(a,b) \mid a + b \le 3\}$. Which are reflexive, symmetric, antisymmetric, transitive?</span></div>
+      <div class="line-block">
+        <div class="lbl">$R_1: a \le b$</div>
+        <div class="step">Reflexive ✓ &nbsp;|&nbsp; Symmetric ✗ &nbsp;|&nbsp; Antisymmetric ✓ &nbsp;|&nbsp; Transitive ✓ → <b>Partial Order</b></div>
+
+        <div class="lbl">$R_2: a > b$</div>
+        <div class="step">Reflexive ✗ &nbsp;|&nbsp; Symmetric ✗ &nbsp;|&nbsp; Antisymmetric ✓ (vacuous) &nbsp;|&nbsp; Transitive ✓</div>
+
+        <div class="lbl">$R_3: a = b$ or $a = -b$</div>
+        <div class="step">Reflexive ✓ &nbsp;|&nbsp; Symmetric ✓ &nbsp;|&nbsp; Antisymmetric ✗ ($1R(-1)$ &amp; $-1R1$) &nbsp;|&nbsp; Transitive ✓ → <b>Equivalence</b></div>
+
+        <div class="lbl">$R_4: a = b$ (Equality)</div>
+        <div class="step">All four properties hold → Reflexive ✓ Symmetric ✓ Antisymmetric ✓ Transitive ✓</div>
+
+        <div class="lbl">$R_5: a = b + 1$</div>
+        <div class="step">Reflexive ✗ &nbsp;|&nbsp; Symmetric ✗ &nbsp;|&nbsp; Antisymmetric ✓ &nbsp;|&nbsp; Transitive ✗ ($2R1, 1R0$ but $2 \neq 0+1$)</div>
+
+        <div class="lbl">$R_6: a + b \le 3$</div>
+        <div class="step">Reflexive ✗ ($2+2=4 \not\le 3$) &nbsp;|&nbsp; Symmetric ✓ &nbsp;|&nbsp; Antisymmetric ✗ &nbsp;|&nbsp; Transitive ✗</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">If $A = \{3, 4, 5\}$ and $R$ is defined as $aRb$ iff $a + b > 10$, find $R$. [Summer 2017–18]</span></div>
+      <div class="line-block">
+        <div class="lbl">Check all pairs in $A \times A$</div>
+        <div class="step">$3 + 3 = 6,\ 3 + 4 = 7,\ 3 + 5 = 8$ — none $> 10$</div>
+        <div class="step">$4 + 3 = 7,\ 4 + 4 = 8,\ 4 + 5 = 9$ — none $> 10$</div>
+        <div class="step">$5 + 3 = 8,\ 5 + 4 = 9,\ 5 + 5 = 10$ — none $> 10$</div>
+        <div class="ans">∴ $R = \emptyset$ (Empty Relation)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Suppose $A = \{1, 2, 3\}$ and $B = \{1, 2\}$. Let $R$ be the relation from $A$ to $B$ containing $(a, b)$ if $a \in A,\ b \in B,\ a > b$. What is the matrix representing $R$? [Winter 2019–20]</span></div>
+      <div class="line-block">
+        <div class="lbl">List pairs with $a > b$</div>
+        <div class="step">$a = 1$: none</div>
+        <div class="step">$a = 2$: $b = 1 \Rightarrow (2, 1)$</div>
+        <div class="step">$a = 3$: $b \in \{1, 2\} \Rightarrow (3, 1),(3, 2)$</div>
+        <div class="step">$R = \{(2,1),(3,1),(3,2)\}$</div>
+        <div class="lbl">Matrix $M_R$ (rows = $A$, cols = $B$)</div>
+        <div class="step">$M_R = \begin{pmatrix} 0 & 0 \\ 1 & 0 \\ 1 & 1 \end{pmatrix}$</div>
+        <div class="ans">∴ Matrix representation above</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">If $A = \{1,2,3,4,5,6\}$ and $R = \{(x,y) : |x - y| = 3,\ x, y \in A\}$, find $R$. [Winter 2023–24]</span></div>
+      <div class="line-block">
+        <div class="lbl">Find pairs with $|x - y| = 3$</div>
+        <div class="step">$|1 - 4| = 3 \Rightarrow (1,4),(4,1)$</div>
+        <div class="step">$|2 - 5| = 3 \Rightarrow (2,5),(5,2)$</div>
+        <div class="step">$|3 - 6| = 3 \Rightarrow (3,6),(6,3)$</div>
+        <div class="ans">$R = \{(1,4),(4,1),(2,5),(5,2),(3,6),(6,3)\}$ → <b>Option (D)</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Given $S = \{1, 2, 3, \dots, 10\}$ and relation $R$ on $S$ where $R = \{(x, y) : x + y = 10\}$. Determine whether it is reflexive, symmetric, antisymmetric, transitive. [Winter 2023–24]</span></div>
+      <div class="line-block">
+        <div class="step">$R = \{(1,9),(2,8),(3,7),(4,6),(5,5),(6,4),(7,3),(8,2),(9,1)\}$</div>
+        <div class="lbl">Reflexive</div>
+        <div class="step">Need $(a, a) \in R \Rightarrow 2a = 10 \Rightarrow a = 5$ only ✗</div>
+        <div class="lbl">Symmetric</div>
+        <div class="step">If $x + y = 10$ then $y + x = 10$ ✓</div>
+        <div class="lbl">Antisymmetric</div>
+        <div class="step">$(1,9),(9,1) \in R$ but $1 \neq 9$ ✗</div>
+        <div class="lbl">Transitive</div>
+        <div class="step">$(1,9) \in R,\ (9,1) \in R$ but $1 + 1 = 2 \neq 10 \Rightarrow (1,1) \notin R$ ✗</div>
+        <div class="ans">∴ Only <b>Symmetric</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Define the closure property of reflexive. [Winter 2022–23]</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">The <b>reflexive closure</b> of a relation $R$ on set $A$ is the smallest reflexive relation on $A$ that contains $R$.</div>
+        <div class="lbl">Formula</div>
+        <div class="step">Reflexive closure $= R \cup \Delta_A$, where $\Delta_A = \{(a, a) : a \in A\}$</div>
+        <div class="lbl">Example</div>
+        <div class="step">If $A = \{1, 2, 3\}$ and $R = \{(1,2),(2,3)\}$</div>
+        <div class="step">Then reflexive closure $= \{(1,2),(2,3),(1,1),(2,2),(3,3)\}$</div>
+        <div class="ans">∴ Smallest superset of $R$ that is reflexive</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Define Bijective and Surjective functions.</span></div>
+      <div class="line-block">
+        <div class="lbl">Surjective (Onto) Function</div>
+        <div class="step">A function $f: A \to B$ is surjective if $\forall b \in B,\ \exists a \in A$ such that $f(a) = b$.</div>
+        <div class="step">i.e. Range $f$ = Codomain $B$.</div>
+        <div class="step">Example: $f: \mathbb{R} \to \mathbb{R},\ f(x) = x^3$ — onto.</div>
+
+        <div class="lbl">Bijective Function</div>
+        <div class="step">A function $f: A \to B$ is bijective if it is BOTH one-one (injective) AND onto (surjective).</div>
+        <div class="step">i.e. $\forall b \in B$, there exists a unique $a \in A$ with $f(a) = b$.</div>
+        <div class="step">Example: $f: \mathbb{R} \to \mathbb{R},\ f(x) = 2x + 1$ — bijective.</div>
+        <div class="ans">∴ Bijective ⇔ One-One + Onto (invertible)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- TUTORIAL 2 -->
+<!-- ====================================================================== -->
+<section id="t2" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-tutorials')">← Back to Tutorials</button>
+    <h2 class="page-title">Tutorial 2 — Induction, Recursion &amp; Counting</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Prove the following using the Principle of Mathematical Induction: (1) $1^2 + 3^2 + 5^2 + \dots + (2n-1)^2 = \dfrac{n(2n-1)(2n+1)}{3}$. (2) $1^3 + 2^3 + 3^3 + \dots + n^3 = \left[\dfrac{n(n+1)}{2}\right]^2$. (3) $1^2 + 2^2 + 3^2 + \dots + n^2 = \dfrac{n(n+1)(2n+1)}{6}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">(1) Odd squares — see Assignment 2 Q10 for full proof</div>
+        <div class="step">Already proven in Assignment 2; result: $\dfrac{n(2n-1)(2n+1)}{3}$</div>
+
+        <div class="lbl">(2) Sum of cubes: $\sum k^3 = \left[\dfrac{n(n+1)}{2}\right]^2$</div>
+        <div class="step">Base $n = 1$: LHS $= 1$, RHS $= [1\cdot 2/2]^2 = 1$ ✓</div>
+        <div class="step">Assume true for $n = k$: $\sum_{i=1}^{k} i^3 = \dfrac{k^2(k+1)^2}{4}$</div>
+        <div class="step">Add $(k+1)^3$: $\dfrac{k^2(k+1)^2}{4} + (k+1)^3$</div>
+        <div class="step">$= \dfrac{(k+1)^2 [k^2 + 4(k+1)]}{4} = \dfrac{(k+1)^2(k+2)^2}{4}$</div>
+        <div class="step">$= \left[\dfrac{(k+1)(k+2)}{2}\right]^2$ ✓</div>
+
+        <div class="lbl">(3) Sum of squares: $\sum k^2 = \dfrac{n(n+1)(2n+1)}{6}$</div>
+        <div class="step">Base $n = 1$: LHS $= 1$, RHS $= 1 \cdot 2 \cdot 3 / 6 = 1$ ✓</div>
+        <div class="step">Assume $\sum_{i=1}^{k} i^2 = \dfrac{k(k+1)(2k+1)}{6}$</div>
+        <div class="step">Add $(k+1)^2$: $\dfrac{k(k+1)(2k+1)}{6} + (k+1)^2$</div>
+        <div class="step">$= \dfrac{(k+1)[k(2k+1) + 6(k+1)]}{6} = \dfrac{(k+1)(2k^2 + 7k + 6)}{6}$</div>
+        <div class="step">$= \dfrac{(k+1)(k+2)(2k+3)}{6}$ ✓</div>
+        <div class="ans">∴ All three formulas proven by PMI ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">A positive integer $p > 1$ is called __________ if the only positive factors of $p$ are 1 and $p$. (a) Composite (b) Prime (c) Rational (d) None of these. [Winter 2019–20]</span></div>
+      <div class="line-block">
+        <div class="step">By definition, a number with exactly two divisors ($1$ and itself) is called a <b>Prime</b>.</div>
+        <div class="ans">∴ Answer = <b>(b) Prime</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">What is the remainder when $-17$ is divided by $5$? (a) 3 (b) $-3$ (c) 2 (d) $-2$. [Summer 2021–22]</span></div>
+      <div class="line-block">
+        <div class="step">$-17 = 5 \times (-4) + 3$ &nbsp;(since $5 \times -4 = -20$, and $-20 + 3 = -17$)</div>
+        <div class="step">Remainder must be non-negative: $r = 3$</div>
+        <div class="ans">∴ Answer = <b>(a) 3</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Which of the following is the prime factorization of 10? (a) 10 (b) $2 \times 5$ (c) $10 \times 1$ (d) All of the above. [Winter 2023–24]</span></div>
+      <div class="line-block">
+        <div class="step">Prime factorization uses only prime numbers as factors.</div>
+        <div class="step">$10 = 2 \times 5$, both primes.</div>
+        <div class="ans">∴ Answer = <b>(b) $2 \times 5$</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">107 is a prime number. (True or False). [Winter 2023–24]</span></div>
+      <div class="line-block">
+        <div class="step">Test divisibility up to $\sqrt{107} \approx 10.3$ by primes $2, 3, 5, 7$:</div>
+        <div class="step">$107 / 2 = 53.5$ ✗ &nbsp; $107 / 3 = 35.67$ ✗</div>
+        <div class="step">$107 / 5 = 21.4$ ✗ &nbsp; $107 / 7 = 15.28$ ✗</div>
+        <div class="step">No prime $\le \sqrt{107}$ divides $107$.</div>
+        <div class="ans">∴ <b>TRUE</b> — 107 is prime.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">The number of permutations of the letters of the word &ldquo;MATHEMATICS&rdquo; = ? [Summer 2023–24]</span></div>
+      <div class="line-block">
+        <div class="lbl">Count letters</div>
+        <div class="step">M-A-T-H-E-M-A-T-I-C-S : 11 letters total</div>
+        <div class="step">Repetitions: M = 2, A = 2, T = 2; others single</div>
+        <div class="lbl">Formula</div>
+        <div class="step">$N = \dfrac{11!}{2! \cdot 2! \cdot 2!} = \dfrac{39{,}916{,}800}{8}$</div>
+        <div class="step">$= 4{,}989{,}600$</div>
+        <div class="ans">∴ $\boxed{4{,}989{,}600}$ permutations</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">$P(n, r) = C(n, r)$. (True or False) [Summer 2023–24]</span></div>
+      <div class="line-block">
+        <div class="step">$P(n, r) = \dfrac{n!}{(n-r)!}$ &nbsp;(arrangements)</div>
+        <div class="step">$C(n, r) = \dfrac{n!}{r!(n-r)!}$ &nbsp;(selections)</div>
+        <div class="step">$P(n, r) = r! \cdot C(n, r)$, so they are equal only when $r! = 1 \Rightarrow r = 0$ or $r = 1$.</div>
+        <div class="ans">∴ <b>FALSE</b> in general.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">How many positive integers not exceeding 1000 are divisible by 7 or 11? (a) 110 (b) 106 (c) 102 (d) 220. [Winter 2022–23]</span></div>
+      <div class="line-block">
+        <div class="step">$\lfloor 1000/7 \rfloor = 142$</div>
+        <div class="step">$\lfloor 1000/11 \rfloor = 90$</div>
+        <div class="step">$\lfloor 1000/77 \rfloor = 12$</div>
+        <div class="step">$|A \cup B| = 142 + 90 - 12 = 220$</div>
+        <div class="ans">∴ Answer = <b>(d) 220</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Find the gcd of the following: (1) $(123, 36)$, (2) $(1220, 516)$, (3) $(527, 314)$.</span></div>
+      <div class="line-block">
+        <div class="lbl">(1) $\gcd(123, 36)$</div>
+        <div class="step">$123 = 3 \cdot 36 + 15$</div>
+        <div class="step">$36 = 2 \cdot 15 + 6$</div>
+        <div class="step">$15 = 2 \cdot 6 + 3$</div>
+        <div class="step">$6 = 2 \cdot 3 + 0$</div>
+        <div class="ans">$\gcd = \boxed{3}$</div>
+
+        <div class="lbl">(2) $\gcd(1220, 516)$</div>
+        <div class="step">$1220 = 2 \cdot 516 + 188$</div>
+        <div class="step">$516 = 2 \cdot 188 + 140$</div>
+        <div class="step">$188 = 1 \cdot 140 + 48$</div>
+        <div class="step">$140 = 2 \cdot 48 + 44$</div>
+        <div class="step">$48 = 1 \cdot 44 + 4$</div>
+        <div class="step">$44 = 11 \cdot 4 + 0$</div>
+        <div class="ans">$\gcd = \boxed{4}$</div>
+
+        <div class="lbl">(3) $\gcd(527, 314)$</div>
+        <div class="step">$527 = 1 \cdot 314 + 213$</div>
+        <div class="step">$314 = 1 \cdot 213 + 101$</div>
+        <div class="step">$213 = 2 \cdot 101 + 11$</div>
+        <div class="step">$101 = 9 \cdot 11 + 2$</div>
+        <div class="step">$11 = 5 \cdot 2 + 1$</div>
+        <div class="step">$2 = 2 \cdot 1 + 0$</div>
+        <div class="ans">$\gcd = \boxed{1}$ (coprime)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">(1) Find the first four terms of the sequence defined by $a_n = a_{n-1}^2 - 1,\ a_1 = 2$. (2) Use generating functions to solve $a_n - 2a_{n-1} - 3a_{n-2} = 0,\ n \ge 2$ with $a_0 = 3,\ a_1 = 1$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Part (1) — First four terms</div>
+        <div class="step">$a_1 = 2$</div>
+        <div class="step">$a_2 = a_1^2 - 1 = 4 - 1 = 3$</div>
+        <div class="step">$a_3 = a_2^2 - 1 = 9 - 1 = 8$</div>
+        <div class="step">$a_4 = a_3^2 - 1 = 64 - 1 = 63$</div>
+        <div class="ans">∴ First four terms: $\boxed{2,\ 3,\ 8,\ 63}$</div>
+
+        <div class="lbl">Part (2) — Solve $a_n = 2a_{n-1} + 3a_{n-2}$</div>
+        <div class="step">Characteristic equation: $x^2 - 2x - 3 = 0$</div>
+        <div class="step">$(x - 3)(x + 1) = 0 \Rightarrow x = 3,\ -1$</div>
+        <div class="step">General solution: $a_n = A \cdot 3^n + B \cdot (-1)^n$</div>
+        <div class="step">Apply $a_0 = 3$: $A + B = 3$</div>
+        <div class="step">Apply $a_1 = 1$: $3A - B = 1$</div>
+        <div class="step">Add: $4A = 4 \Rightarrow A = 1,\ B = 2$</div>
+        <div class="ans">$\boxed{a_n = 3^n + 2(-1)^n}$</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- TUTORIAL 3 -->
+<!-- ====================================================================== -->
+<section id="t3" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-tutorials')">← Back to Tutorials</button>
+    <h2 class="page-title">Tutorial 3 — Propositional Logic &amp; Proof Techniques</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Let $P$: &ldquo;It is raining&rdquo; and $Q$: &ldquo;The ground is wet&rdquo;. (1) Translate into symbolic form: (a) If it is raining, then the ground is wet; (b) It is not raining but the ground is wet. (2) Construct the truth table and determine truth values.</span></div>
+      <div class="line-block">
+        <div class="lbl">Symbolic translations</div>
+        <div class="step">(a) "If raining then ground is wet" $\Rightarrow P \to Q$</div>
+        <div class="step">(b) "Not raining but ground is wet" $\Rightarrow \neg P \wedge Q$</div>
+        <div class="lbl">Truth Table</div>
+        <div class="step">$\begin{array}{|c|c|c|c|c|}\hline P & Q & \neg P & P \to Q & \neg P \wedge Q \\ \hline T & T & F & T & F \\ T & F & F & F & F \\ F & T & T & T & T \\ F & F & T & T & F \\ \hline \end{array}$</div>
+        <div class="ans">∴ $(P \to Q)$ false only when $P = T, Q = F$. $(\neg P \wedge Q)$ true only when $P = F, Q = T$.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Construct the truth table for $(p \wedge q) \to (\neg p \vee q)$. Identify whether it is a tautology, contradiction, or contingency.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|c|}\hline p & q & p\wedge q & \neg p & \neg p \vee q & (p \wedge q) \to (\neg p \vee q) \\ \hline T & T & T & F & T & T \\ T & F & F & F & F & T \\ F & T & F & T & T & T \\ F & F & F & T & T & T \\ \hline \end{array}$</div>
+        <div class="ans">All values $= T$ ⇒ <b>Tautology</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Determine whether the argument is valid: $(p \to q),\ (q \to r),\ p \vdash r$. Use truth tables or rules of inference.</span></div>
+      <div class="line-block">
+        <div class="step">1.&nbsp; $p \to q$ (premise)</div>
+        <div class="step">2.&nbsp; $q \to r$ (premise)</div>
+        <div class="step">3.&nbsp; $p$ (premise)</div>
+        <div class="step">4.&nbsp; $q$ (Modus Ponens on 1, 3)</div>
+        <div class="step">5.&nbsp; $r$ (Modus Ponens on 2, 4)</div>
+        <div class="ans">∴ Argument is <b>Valid</b> (chained Modus Ponens) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Prove using laws of logic: $\neg(p \to q) \equiv p \wedge \neg q$.</span></div>
+      <div class="line-block">
+        <div class="step">$\neg(p \to q)$</div>
+        <div class="step">$\equiv \neg(\neg p \vee q)$ &nbsp; (Implication law: $p \to q \equiv \neg p \vee q$)</div>
+        <div class="step">$\equiv \neg(\neg p) \wedge \neg q$ &nbsp; (De Morgan)</div>
+        <div class="step">$\equiv p \wedge \neg q$ &nbsp; (Double Negation)</div>
+        <div class="ans">∴ $\neg(p \to q) \equiv p \wedge \neg q$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Let the domain be integers. (1) Translate: &ldquo;Every integer is even or odd&rdquo;. (2) Negate the statement $\forall x (P(x) \vee Q(x))$. (3) Simplify the negation.</span></div>
+      <div class="line-block">
+        <div class="lbl">(1) Symbolic translation</div>
+        <div class="step">Let $E(x)$: $x$ is even, $O(x)$: $x$ is odd</div>
+        <div class="step">$\forall x \big(E(x) \vee O(x)\big)$</div>
+        <div class="lbl">(2) Negate $\forall x (P(x) \vee Q(x))$</div>
+        <div class="step">$\neg \forall x (P(x) \vee Q(x))$</div>
+        <div class="step">$\equiv \exists x\ \neg(P(x) \vee Q(x))$ &nbsp;(Quantifier negation)</div>
+        <div class="lbl">(3) Simplify</div>
+        <div class="step">$\equiv \exists x (\neg P(x) \wedge \neg Q(x))$ &nbsp;(De Morgan)</div>
+        <div class="ans">∴ Negation: $\exists x\big(\neg P(x) \wedge \neg Q(x)\big)$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Prove directly: If $n$ is even, then $n^2$ is even.</span></div>
+      <div class="line-block">
+        <div class="step">Assume $n$ is even.</div>
+        <div class="step">$\Rightarrow n = 2k$ for some integer $k$</div>
+        <div class="step">$n^2 = (2k)^2 = 4k^2 = 2(2k^2)$</div>
+        <div class="step">Let $m = 2k^2 \in \mathbb{Z}$, so $n^2 = 2m$</div>
+        <div class="ans">∴ $n^2$ is even ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Prove: If $n^2$ is odd, then $n$ is odd. Use the contrapositive method.</span></div>
+      <div class="line-block">
+        <div class="lbl">Contrapositive</div>
+        <div class="step">Statement: $P \to Q$ where $P$: "$n^2$ odd", $Q$: "$n$ odd"</div>
+        <div class="step">Contrapositive: $\neg Q \to \neg P$, i.e. "If $n$ is even, then $n^2$ is even"</div>
+        <div class="lbl">Proof of contrapositive</div>
+        <div class="step">Let $n$ be even $\Rightarrow n = 2k$</div>
+        <div class="step">$n^2 = 4k^2 = 2(2k^2) \Rightarrow n^2$ even</div>
+        <div class="ans">∴ Contrapositive holds, hence original statement holds ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Consider: <code>x = x + 1;</code> with precondition $x = 5$. Find the postcondition.</span></div>
+      <div class="line-block">
+        <div class="step">Precondition (before statement): $x = 5$</div>
+        <div class="step">Statement: $x \leftarrow x + 1$</div>
+        <div class="step">After execution: new $x = 5 + 1 = 6$</div>
+        <div class="ans">∴ Postcondition: $\boxed{x = 6}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Explain with proof: &ldquo;$p$ is sufficient for $q$&rdquo; and &ldquo;$p$ is necessary for $q$&rdquo;. Give formal symbolic expressions and examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">$p$ is sufficient for $q$</div>
+        <div class="step">Symbolically: $p \to q$</div>
+        <div class="step">Meaning: $p$ being true guarantees $q$ is true.</div>
+        <div class="step">Example: "Being a square is sufficient to be a rectangle." (Square ⇒ Rectangle)</div>
+
+        <div class="lbl">$p$ is necessary for $q$</div>
+        <div class="step">Symbolically: $q \to p$</div>
+        <div class="step">Meaning: $q$ cannot be true without $p$ being true.</div>
+        <div class="step">Example: "Being a polygon is necessary to be a triangle." (Triangle ⇒ Polygon)</div>
+
+        <div class="ans">∴ Sufficient = $p \to q$; Necessary = $q \to p$. Both ⇒ $p \leftrightarrow q$.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Determine which of the following are well-formed formulas (WFF) and justify: (1) $(p \wedge \to q)$, (2) $\neg(p \vee q)$, (3) $p \vee (q \wedge r)$, (4) $\to p\ q$.</span></div>
+      <div class="line-block">
+        <div class="step">(1) $(p \wedge \to q)$ — two binary connectives adjacent → <b>NOT WFF</b></div>
+        <div class="step">(2) $\neg(p \vee q)$ — unary $\neg$ applied to a WFF → <b>WFF</b> ✓</div>
+        <div class="step">(3) $p \vee (q \wedge r)$ — properly parenthesised → <b>WFF</b> ✓</div>
+        <div class="step">(4) $\to p\ q$ — connective before operands → <b>NOT WFF</b> (infix violation)</div>
+        <div class="ans">∴ WFFs: only (2) and (3).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- TUTORIAL 4 -->
+<!-- ====================================================================== -->
+<section id="t4" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-tutorials')">← Back to Tutorials</button>
+    <h2 class="page-title">Tutorial 4 — Algebraic Structures &amp; Boolean Algebra</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Check if the set of all real numbers is a commutative group under usual addition.</span></div>
+      <div class="line-block">
+        <div class="step">Closure: $a + b \in \mathbb{R}$ ✓</div>
+        <div class="step">Associative: $(a+b)+c = a+(b+c)$ ✓</div>
+        <div class="step">Identity: $e = 0$, since $a + 0 = a$ ✓</div>
+        <div class="step">Inverse: $-a$, since $a + (-a) = 0$ ✓</div>
+        <div class="step">Commutative: $a + b = b + a$ ✓</div>
+        <div class="ans">∴ $(\mathbb{R}, +)$ is a <b>Commutative (Abelian) Group</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Check if the set of all quadratic polynomials is a commutative group under usual addition.</span></div>
+      <div class="line-block">
+        <div class="step">Take $p(x) = x^2$ and $q(x) = -x^2 + x$</div>
+        <div class="step">$p + q = x$ — a polynomial of degree 1, NOT quadratic</div>
+        <div class="step">Closure fails ✗</div>
+        <div class="ans">∴ <b>NOT a group</b> (set is not closed under addition)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Check if $G = \{1, -1, i, -i\}$ is a group under multiplication. Also check the commutative property.</span></div>
+      <div class="line-block">
+        <div class="lbl">Cayley Table</div>
+        <div class="step">$\begin{array}{c|cccc} \cdot & 1 & -1 & i & -i \\ \hline 1 & 1 & -1 & i & -i \\ -1 & -1 & 1 & -i & i \\ i & i & -i & -1 & 1 \\ -i & -i & i & 1 & -1 \end{array}$</div>
+        <div class="step">Closure ✓ (all entries in $G$)</div>
+        <div class="step">Associative ✓ (multiplication of complex numbers)</div>
+        <div class="step">Identity: $e = 1$ ✓</div>
+        <div class="step">Inverses: $1^{-1}=1,\ (-1)^{-1}=-1,\ i^{-1}=-i,\ (-i)^{-1}=i$ ✓</div>
+        <div class="step">Commutative: table symmetric across diagonal ✓</div>
+        <div class="ans">∴ $G$ is a <b>Commutative (Abelian) Group</b> — cyclic of order 4, generator $i$.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Check if the set of ordered pairs of real numbers forms a group under component-wise addition.</span></div>
+      <div class="line-block">
+        <div class="step">Set $= \mathbb{R}^2 = \{(a, b) : a, b \in \mathbb{R}\}$</div>
+        <div class="step">Operation: $(a, b) + (c, d) = (a+c,\ b+d)$</div>
+        <div class="step">Closure ✓, Associativity ✓ (inherited from $\mathbb{R}$)</div>
+        <div class="step">Identity $= (0, 0)$ ✓</div>
+        <div class="step">Inverse of $(a, b) = (-a, -b)$ ✓</div>
+        <div class="step">Commutative ✓</div>
+        <div class="ans">∴ $(\mathbb{R}^2, +)$ is a <b>Commutative Group</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Check if $\mathbb{R}$ is a commutative group under $a * b = 2(a + b)$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Associativity test</div>
+        <div class="step">$(a * b) * c = 2(a+b) * c = 2[2(a+b) + c] = 4a + 4b + 2c$</div>
+        <div class="step">$a * (b * c) = a * 2(b+c) = 2[a + 2(b+c)] = 2a + 4b + 4c$</div>
+        <div class="step">$4a + 4b + 2c \neq 2a + 4b + 4c$ ⇒ NOT associative ✗</div>
+        <div class="ans">∴ <b>NOT a group</b> (associativity fails)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Consider $\mathbb{R}$ with $a * b = \dfrac{a+b}{21}$. Check associativity, identity and inverse.</span></div>
+      <div class="line-block">
+        <div class="step">$(a*b)*c = \dfrac{(a+b)/21 + c}{21} = \dfrac{a+b+21c}{441}$</div>
+        <div class="step">$a*(b*c) = \dfrac{a + (b+c)/21}{21} = \dfrac{21a + b + c}{441}$</div>
+        <div class="step">Not equal ⇒ <b>NOT associative</b></div>
+        <div class="step">Identity test: $a * e = a \Rightarrow (a+e)/21 = a \Rightarrow e = 20a$ — depends on $a$, so no fixed identity ✗</div>
+        <div class="ans">∴ No identity, no inverse, not associative — NOT a group</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Show that the binary operation $*$ on $\mathbb{R}$ defined by $a * b = \max(a, b)$ is associative.</span></div>
+      <div class="line-block">
+        <div class="step">$(a * b) * c = \max(a, b) * c = \max(\max(a, b), c) = \max(a, b, c)$</div>
+        <div class="step">$a * (b * c) = a * \max(b, c) = \max(a, \max(b, c)) = \max(a, b, c)$</div>
+        <div class="ans">∴ $(a * b) * c = a * (b * c) = \max(a, b, c)$ — <b>Associative</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Show that $*$ on $\mathbb{Q}$ defined by $a * b = ab/2$ is both commutative and associative.</span></div>
+      <div class="line-block">
+        <div class="lbl">Commutative</div>
+        <div class="step">$a * b = ab/2 = ba/2 = b * a$ ✓</div>
+        <div class="lbl">Associative</div>
+        <div class="step">$(a * b) * c = (ab/2) * c = (ab/2)\cdot c/2 = abc/4$</div>
+        <div class="step">$a * (b * c) = a * (bc/2) = a(bc/2)/2 = abc/4$</div>
+        <div class="ans">∴ Both Commutative and Associative ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Examine whether matrix multiplication on $M = \left\{ \begin{pmatrix} 0 & a \\ b & 0 \end{pmatrix} : a, b \in \mathbb{R} \right\}$ is a binary operation.</span></div>
+      <div class="line-block">
+        <div class="step">Take $A = \begin{pmatrix} 0 & a_1 \\ b_1 & 0 \end{pmatrix},\ B = \begin{pmatrix} 0 & a_2 \\ b_2 & 0 \end{pmatrix}$</div>
+        <div class="step">$AB = \begin{pmatrix} a_1 b_2 & 0 \\ 0 & b_1 a_2 \end{pmatrix}$</div>
+        <div class="step">Result has zeros on anti-diagonal, NOT on main diagonal — NOT in form of $M$</div>
+        <div class="ans">∴ $M$ is <b>NOT closed</b> under multiplication ⇒ Not a binary operation on $M$.</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Show that the set of all $2 \times 2$ matrices with zero trace is a subgroup of the group of $2 \times 2$ matrices under matrix addition.</span></div>
+      <div class="line-block">
+        <div class="step">Let $H = \{A \in M_2(\mathbb{R}) : \text{tr}(A) = 0\}$</div>
+        <div class="step">$0 \in H$: trace of zero matrix is 0 ✓</div>
+        <div class="step">Closure: $\text{tr}(A + B) = \text{tr}(A) + \text{tr}(B) = 0 + 0 = 0$ ✓</div>
+        <div class="step">Inverse: $\text{tr}(-A) = -\text{tr}(A) = 0$ ✓</div>
+        <div class="ans">∴ $H \le (M_2(\mathbb{R}), +)$ — <b>Subgroup</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q11.</span><span class="qtext">Prove that $4\mathbb{Z}$ is a subgroup of $(\mathbb{Z}, +)$.</span></div>
+      <div class="line-block">
+        <div class="step">$4\mathbb{Z} = \{\dots, -8, -4, 0, 4, 8, \dots\}$</div>
+        <div class="step">$0 \in 4\mathbb{Z}$ ✓</div>
+        <div class="step">Closure: $4a + 4b = 4(a + b) \in 4\mathbb{Z}$ ✓</div>
+        <div class="step">Inverse: $-(4a) = 4(-a) \in 4\mathbb{Z}$ ✓</div>
+        <div class="ans">∴ $4\mathbb{Z} \le (\mathbb{Z}, +)$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q12.</span><span class="qtext">Prove that $G = \{\dots, 1/8, 1/4, 1/2, 1, 2, 4, 8, 16, \dots\}$ is a cyclic group with generator $1/2$.</span></div>
+      <div class="line-block">
+        <div class="step">$G = \{2^n : n \in \mathbb{Z}\}$ under multiplication</div>
+        <div class="step">Take $g = 1/2 = 2^{-1}$</div>
+        <div class="step">Powers of $g$: $g^n = 2^{-n}$ for $n \in \mathbb{Z}$</div>
+        <div class="step">As $n$ ranges over $\mathbb{Z}$, $2^{-n}$ ranges over all of $G$</div>
+        <div class="ans">∴ $G = \langle 1/2 \rangle$ — <b>Cyclic Group</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q13.</span><span class="qtext">Prove that $\mathbb{Z}_5$ under addition modulo 5 is cyclic.</span></div>
+      <div class="line-block">
+        <div class="step">$\mathbb{Z}_5 = \{0, 1, 2, 3, 4\}$ under $+_5$</div>
+        <div class="step">Powers of $1$ (here repeated addition):</div>
+        <div class="step">$1 \cdot 1 = 1$</div>
+        <div class="step">$2 \cdot 1 = 1 + 1 = 2$</div>
+        <div class="step">$3 \cdot 1 = 3,\ 4 \cdot 1 = 4,\ 5 \cdot 1 = 0$</div>
+        <div class="ans">∴ $\mathbb{Z}_5 = \langle 1 \rangle$ — <b>Cyclic of order 5</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q14.</span><span class="qtext">Find the order, the inverse of $\sigma = \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 1 & 3 & 5 & 6 & 2 & 7 & 4 \end{pmatrix}$ in $S_7$. Also find $\sigma^2$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Cycle decomposition</div>
+        <div class="step">$1 \mapsto 1$ (fixed)</div>
+        <div class="step">$2 \mapsto 3 \mapsto 5 \mapsto 2$ ⇒ cycle $(2\ 3\ 5)$ of length 3</div>
+        <div class="step">$4 \mapsto 6 \mapsto 7 \mapsto 4$ ⇒ cycle $(4\ 6\ 7)$ of length 3</div>
+        <div class="step">$\sigma = (2\ 3\ 5)(4\ 6\ 7)$</div>
+
+        <div class="lbl">Order</div>
+        <div class="step">$\text{ord}(\sigma) = \text{lcm}(3, 3) = 3$</div>
+        <div class="ans">Order $= \boxed{3}$</div>
+
+        <div class="lbl">Inverse</div>
+        <div class="step">$\sigma^{-1} = (2\ 5\ 3)(4\ 7\ 6)$</div>
+        <div class="step">$\sigma^{-1} = \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 1 & 5 & 2 & 7 & 3 & 4 & 6 \end{pmatrix}$</div>
+
+        <div class="lbl">$\sigma^2$</div>
+        <div class="step">$\sigma^2 = (2\ 5\ 3)(4\ 7\ 6) = \sigma^{-1}$ (since order 3)</div>
+        <div class="step">$\sigma^2 = \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ 1 & 5 & 2 & 7 & 3 & 4 & 6 \end{pmatrix}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q15.</span><span class="qtext">Prove that $D_4$ is a subgroup of $S_4$.</span></div>
+      <div class="line-block">
+        <div class="step">$D_4$ = symmetries of a square = 4 rotations + 4 reflections, $|D_4| = 8$.</div>
+        <div class="step">Each symmetry permutes the 4 vertices, so $D_4 \subseteq S_4$.</div>
+        <div class="step">Closure: composition of two symmetries is a symmetry ✓</div>
+        <div class="step">Identity (do-nothing rotation) ∈ $D_4$ ✓</div>
+        <div class="step">Inverse: every rotation/reflection has an inverse in $D_4$ ✓</div>
+        <div class="ans">∴ $D_4 \le S_4$ — subgroup of order 8 (note $|S_4| = 24$) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q16.</span><span class="qtext">Show that $f: \mathbb{R}^2 \to \mathbb{R}$ defined by $f(x, y) = x + y$ is a group homomorphism. Hence show that the set of points on the line $y = -x$ is a normal subgroup of $\mathbb{R}^2$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Homomorphism check</div>
+        <div class="step">$f((x_1, y_1) + (x_2, y_2)) = f(x_1 + x_2,\ y_1 + y_2) = (x_1 + x_2) + (y_1 + y_2)$</div>
+        <div class="step">$= (x_1 + y_1) + (x_2 + y_2) = f(x_1, y_1) + f(x_2, y_2)$ ✓</div>
+        <div class="ans">∴ $f$ is a group homomorphism</div>
+
+        <div class="lbl">Kernel</div>
+        <div class="step">$\ker f = \{(x, y) \in \mathbb{R}^2 : x + y = 0\} = \{(x, -x) : x \in \mathbb{R}\}$</div>
+        <div class="step">This is the line $y = -x$</div>
+        <div class="step">Kernel of any homomorphism is a normal subgroup (and $\mathbb{R}^2$ is abelian, so every subgroup is normal anyway)</div>
+        <div class="ans">∴ $\{(x, -x) : x \in \mathbb{R}\} \trianglelefteq \mathbb{R}^2$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q17.</span><span class="qtext">Check that $f: \mathbb{R}^3 \to \mathbb{R}^3$ defined by $f(x, y, z) = (x,\ x+y,\ x+y-z)$ is a group homomorphism. Find the kernel.</span></div>
+      <div class="line-block">
+        <div class="lbl">Homomorphism check (component-wise)</div>
+        <div class="step">$f$ is linear, so $f(u + v) = f(u) + f(v)$ ✓</div>
+        <div class="lbl">Kernel</div>
+        <div class="step">$f(x, y, z) = (0, 0, 0)$</div>
+        <div class="step">$x = 0,\ x + y = 0 \Rightarrow y = 0,\ x + y - z = 0 \Rightarrow z = 0$</div>
+        <div class="ans">∴ $\ker f = \{(0, 0, 0)\}$ — trivial kernel ⇒ $f$ is injective</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q18.</span><span class="qtext">Define Lattices with example.</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">A <b>Lattice</b> is a partially ordered set $(L, \le)$ in which every pair of elements $a, b \in L$ has:</div>
+        <div class="step">• a unique <b>least upper bound</b> (join): $a \vee b$</div>
+        <div class="step">• a unique <b>greatest lower bound</b> (meet): $a \wedge b$</div>
+        <div class="lbl">Example</div>
+        <div class="step">Power set $P(S)$ ordered by $\subseteq$ is a lattice with $A \vee B = A \cup B,\ A \wedge B = A \cap B$.</div>
+        <div class="step">Divisors of 30 under divisibility: $\{1, 2, 3, 5, 6, 10, 15, 30\}$ with $\vee = \text{lcm},\ \wedge = \gcd$.</div>
+        <div class="ans">∴ Lattice = POSet with join and meet existing for every pair</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q19.</span><span class="qtext">Prove that the power set of a non-empty set $A$ is a field under union and intersection.</span></div>
+      <div class="line-block">
+        <div class="step">$(P(A), \cup, \cap)$ has both operations commutative, associative, idempotent, with absorption.</div>
+        <div class="step">Identity for $\cup$: $\emptyset$; identity for $\cap$: $A$.</div>
+        <div class="step">Each $X \in P(A)$ has complement $X^c = A \setminus X$ satisfying $X \cup X^c = A,\ X \cap X^c = \emptyset$.</div>
+        <div class="step">Distributive laws hold: $X \cap (Y \cup Z) = (X \cap Y) \cup (X \cap Z)$.</div>
+        <div class="ans">∴ $(P(A), \cup, \cap, \emptyset, A,\ ^c)$ is a <b>Boolean algebra</b> (also called a set field) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q20.</span><span class="qtext">Prove De Morgan's laws in Boolean algebra.</span></div>
+      <div class="line-block">
+        <div class="lbl">Law 1: $\overline{x + y} = \bar{x} \cdot \bar{y}$</div>
+        <div class="step">Truth table check:</div>
+        <div class="step">$\begin{array}{|c|c|c|c|c|c|}\hline x & y & x+y & \overline{x+y} & \bar x \cdot \bar y & = \\ \hline 0 & 0 & 0 & 1 & 1 & ✓ \\ 0 & 1 & 1 & 0 & 0 & ✓ \\ 1 & 0 & 1 & 0 & 0 & ✓ \\ 1 & 1 & 1 & 0 & 0 & ✓ \\ \hline\end{array}$</div>
+
+        <div class="lbl">Law 2: $\overline{x \cdot y} = \bar x + \bar y$</div>
+        <div class="step">Similarly verified column-by-column.</div>
+        <div class="ans">∴ Both De Morgan's laws proven ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q21.</span><span class="qtext">Write the following as a sum of products (SOP) and product of sums (POS): (i) $F(x, y, z) = x\bar y + y\bar z$; (ii) $F(x, y, z) = x + y + \bar z$.</span></div>
+      <div class="line-block">
+        <div class="lbl">(i) $F = x\bar y + y \bar z$</div>
+        <div class="step">Already SOP. Expand each term with missing variable:</div>
+        <div class="step">$x\bar y = x\bar y(z + \bar z) = x\bar y z + x\bar y\bar z$</div>
+        <div class="step">$y\bar z = (x + \bar x)y\bar z = xy\bar z + \bar x y\bar z$</div>
+        <div class="step">SOP (canonical): $F = x\bar y z + x\bar y \bar z + xy\bar z + \bar x y \bar z$</div>
+        <div class="step">Minterms (decimal): $m_5, m_4, m_6, m_2 \Rightarrow F = \Sigma m(2,4,5,6)$</div>
+        <div class="step">POS: missing minterms $\Rightarrow$ Maxterms $M_0, M_1, M_3, M_7$</div>
+        <div class="step">$F = (x + y + z)(x + y + \bar z)(x + \bar y + \bar z)(\bar x + \bar y + \bar z)$</div>
+
+        <div class="lbl">(ii) $F = x + y + \bar z$</div>
+        <div class="step">POS form (single sum): $F = (x + y + \bar z)$ — already canonical maxterm $M_2$</div>
+        <div class="step">SOP: $F = 1$ everywhere except minterm $m_2$ ($x=0, y=0, z=1$)</div>
+        <div class="step">$F = \Sigma m(0,1,3,4,5,6,7)$ (all minterms except $m_2$)</div>
+        <div class="ans">∴ SOP &amp; POS forms derived above</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- QUESTION BANK — UNIT 1 -->
+<!-- ====================================================================== -->
+<section id="u1" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-qbank')">← Back to Question Bank</button>
+    <h2 class="page-title">Unit 1 — Set Theory, Relations &amp; Functions</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Find the union, intersection, and difference of $A = \{1,2,3,4\}$ and $B = \{3,4,5,6\}$.</span></div>
+      <div class="line-block">
+        <div class="step">$A \cup B = \{1, 2, 3, 4, 5, 6\}$</div>
+        <div class="step">$A \cap B = \{3, 4\}$</div>
+        <div class="step">$A - B = \{1, 2\}$</div>
+        <div class="step">$B - A = \{5, 6\}$</div>
+        <div class="ans">∴ Union, Intersection, Differences computed above</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Verify De Morgan's laws using suitable sets.</span></div>
+      <div class="line-block">
+        <div class="step">Let $U = \{1,2,3,4,5\},\ A = \{1,2\},\ B = \{2,3\}$</div>
+        <div class="lbl">Law 1: $\overline{A \cup B} = \bar A \cap \bar B$</div>
+        <div class="step">$A \cup B = \{1, 2, 3\} \Rightarrow \overline{A \cup B} = \{4, 5\}$</div>
+        <div class="step">$\bar A = \{3, 4, 5\},\ \bar B = \{1, 4, 5\}$</div>
+        <div class="step">$\bar A \cap \bar B = \{4, 5\}$ ✓</div>
+        <div class="lbl">Law 2: $\overline{A \cap B} = \bar A \cup \bar B$</div>
+        <div class="step">$A \cap B = \{2\} \Rightarrow \overline{A \cap B} = \{1, 3, 4, 5\}$</div>
+        <div class="step">$\bar A \cup \bar B = \{1, 3, 4, 5\}$ ✓</div>
+        <div class="ans">∴ Both laws verified ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Find the power set of $A = \{a, b, c\}$.</span></div>
+      <div class="line-block">
+        <div class="step">$|P(A)| = 2^3 = 8$</div>
+        <div class="step">$P(A) = \{\emptyset,\ \{a\},\ \{b\},\ \{c\},\ \{a,b\},\ \{a,c\},\ \{b,c\},\ \{a,b,c\}\}$</div>
+        <div class="ans">∴ $|P(A)| = \boxed{8}$, listed above</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Determine whether the set of even integers is finite or infinite.</span></div>
+      <div class="line-block">
+        <div class="step">Even integers $= \{\dots, -4, -2, 0, 2, 4, \dots\} = 2\mathbb{Z}$</div>
+        <div class="step">Bijection $f: \mathbb{Z} \to 2\mathbb{Z},\ f(n) = 2n$ exists.</div>
+        <div class="step">$|2\mathbb{Z}| = |\mathbb{Z}| = \aleph_0$ (countably infinite)</div>
+        <div class="ans">∴ <b>Infinite</b> (countably)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Find $A \times B$ where $A = \{1, 2\}$ and $B = \{x, y, z\}$.</span></div>
+      <div class="line-block">
+        <div class="step">$|A \times B| = 2 \times 3 = 6$</div>
+        <div class="step">$A \times B = \{(1,x),(1,y),(1,z),(2,x),(2,y),(2,z)\}$</div>
+        <div class="ans">∴ 6 ordered pairs as above</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Show that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$ using examples.</span></div>
+      <div class="line-block">
+        <div class="step">Let $A = \{1,2,3\},\ B = \{2,4\},\ C = \{3,5\}$</div>
+        <div class="step">$B \cup C = \{2,3,4,5\}$</div>
+        <div class="step">LHS: $A \cap (B \cup C) = \{2, 3\}$</div>
+        <div class="step">$A \cap B = \{2\},\ A \cap C = \{3\}$</div>
+        <div class="step">RHS: $(A \cap B) \cup (A \cap C) = \{2, 3\}$</div>
+        <div class="ans">LHS = RHS ✓ — Distributive law verified ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Represent the given sets using Venn diagrams.</span></div>
+      <div class="line-block">
+        <div class="step">Draw a rectangle $U$ (universal set).</div>
+        <div class="step">Draw overlapping circles for sets $A$, $B$ inside $U$.</div>
+        <div class="step">Regions:</div>
+        <div class="step">• $A \setminus B$ (left crescent), &nbsp; $B \setminus A$ (right crescent)</div>
+        <div class="step">• $A \cap B$ (overlap), &nbsp; $\overline{A \cup B}$ (outside both, inside $U$)</div>
+        <div class="ans">∴ Standard 2-circle Venn diagram inside $U$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Find the complement of a set with respect to a universal set.</span></div>
+      <div class="line-block">
+        <div class="step">Let $U = \{1,2,3,4,5,6,7,8,9,10\},\ A = \{2,4,6,8,10\}$</div>
+        <div class="step">$A^c = U \setminus A = \{x \in U : x \notin A\}$</div>
+        <div class="step">$A^c = \{1, 3, 5, 7, 9\}$</div>
+        <div class="ans">∴ $A^c = \{1, 3, 5, 7, 9\}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Determine the number of subsets of a set containing 5 elements.</span></div>
+      <div class="line-block">
+        <div class="step">Formula: $|P(A)| = 2^{|A|}$</div>
+        <div class="step">$= 2^5 = 32$</div>
+        <div class="ans">∴ $\boxed{32}$ subsets</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Differentiate between countable and uncountable sets with examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">Countable</div>
+        <div class="step">Set $S$ is countable if $\exists$ bijection $f: \mathbb{N} \to S$ (or $S$ is finite).</div>
+        <div class="step">Examples: $\mathbb{N},\ \mathbb{Z},\ \mathbb{Q}$</div>
+
+        <div class="lbl">Uncountable</div>
+        <div class="step">A set is uncountable if no such bijection exists.</div>
+        <div class="step">Examples: $\mathbb{R},\ (0, 1),\ P(\mathbb{N})$ — by Cantor's diagonal argument.</div>
+        <div class="ans">∴ Countable elements can be "listed"; uncountable cannot</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q11.</span><span class="qtext">Determine whether $R = \{(1,1),(2,2),(1,2),(2,1)\}$ on $A = \{1, 2\}$ is reflexive, symmetric, transitive.</span></div>
+      <div class="line-block">
+        <div class="step">Reflexive: needs $(1,1),(2,2) \in R$ ✓</div>
+        <div class="step">Symmetric: $(1,2) \in R \Rightarrow (2,1) \in R$ ✓</div>
+        <div class="step">Transitive: $(1,2),(2,1) \in R \Rightarrow (1,1) \in R$ ✓; $(2,1),(1,2) \Rightarrow (2,2) \in R$ ✓</div>
+        <div class="ans">∴ All three hold ⇒ <b>Equivalence Relation</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q12.</span><span class="qtext">Find the equivalence classes for the relation modulo 3 on integers.</span></div>
+      <div class="line-block">
+        <div class="step">$aRb \iff a \equiv b \pmod{3}$</div>
+        <div class="step">$[0] = \{\dots, -6, -3, 0, 3, 6, \dots\}$</div>
+        <div class="step">$[1] = \{\dots, -5, -2, 1, 4, 7, \dots\}$</div>
+        <div class="step">$[2] = \{\dots, -4, -1, 2, 5, 8, \dots\}$</div>
+        <div class="ans">∴ $\mathbb{Z}/3\mathbb{Z} = \{[0], [1], [2]\}$ — three classes</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q13.</span><span class="qtext">Check whether a given relation is a partial order relation.</span></div>
+      <div class="line-block">
+        <div class="step">A relation $R$ on set $A$ is a <b>partial order</b> iff:</div>
+        <div class="step">1) Reflexive: $\forall a,\ aRa$</div>
+        <div class="step">2) Antisymmetric: $aRb$ and $bRa \Rightarrow a = b$</div>
+        <div class="step">3) Transitive: $aRb,\ bRc \Rightarrow aRc$</div>
+        <div class="step">Example: $\le$ on $\mathbb{Z}$ is a partial order ✓</div>
+        <div class="ans">∴ Check all three; if any fails, not a partial order</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q14.</span><span class="qtext">Represent a relation using a matrix and directed graph.</span></div>
+      <div class="line-block">
+        <div class="step">Let $A = \{1, 2, 3\},\ R = \{(1,2),(2,3),(3,1)\}$</div>
+        <div class="lbl">Matrix $M_R$</div>
+        <div class="step">$M_R = \begin{pmatrix} 0 & 1 & 0 \\ 0 & 0 & 1 \\ 1 & 0 & 0 \end{pmatrix}$</div>
+        <div class="lbl">Directed Graph</div>
+        <div class="step">Nodes: $1, 2, 3$</div>
+        <div class="step">Edges: $1 \to 2,\ 2 \to 3,\ 3 \to 1$ — a cycle</div>
+        <div class="ans">∴ Matrix and digraph as above</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q15.</span><span class="qtext">Find the domain and range of a given relation.</span></div>
+      <div class="line-block">
+        <div class="step">Let $R = \{(1, a),(2, b),(3, a),(4, c)\}$</div>
+        <div class="step">Domain $= \{x : (x, y) \in R\} = \{1, 2, 3, 4\}$</div>
+        <div class="step">Range $= \{y : (x, y) \in R\} = \{a, b, c\}$</div>
+        <div class="ans">∴ Domain $= \{1,2,3,4\}$,&nbsp; Range $= \{a, b, c\}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q16.</span><span class="qtext">Construct a relation that is symmetric but not transitive.</span></div>
+      <div class="line-block">
+        <div class="step">Let $A = \{1, 2, 3\},\ R = \{(1,2),(2,1),(2,3),(3,2)\}$</div>
+        <div class="step">Symmetric: each pair has its reverse ✓</div>
+        <div class="step">Transitive check: $(1,2),(2,3) \in R$ but $(1,3) \notin R$ ✗</div>
+        <div class="ans">∴ $R$ is symmetric but not transitive</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q17.</span><span class="qtext">Determine whether the relation "less than or equal to" is a partial order relation.</span></div>
+      <div class="line-block">
+        <div class="step">Reflexive: $a \le a$ ✓</div>
+        <div class="step">Antisymmetric: $a \le b$ and $b \le a \Rightarrow a = b$ ✓</div>
+        <div class="step">Transitive: $a \le b,\ b \le c \Rightarrow a \le c$ ✓</div>
+        <div class="ans">∴ $\le$ is a <b>Partial Order</b> (and totally ordered too) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q18.</span><span class="qtext">Find the transitive closure of a relation.</span></div>
+      <div class="line-block">
+        <div class="step">Let $A = \{1,2,3\},\ R = \{(1,2),(2,3)\}$</div>
+        <div class="step">Transitive closure $R^+$ = smallest transitive relation containing $R$.</div>
+        <div class="step">From $(1,2),(2,3)$, add $(1,3)$.</div>
+        <div class="step">No further additions possible.</div>
+        <div class="ans">$R^+ = \{(1,2),(2,3),(1,3)\}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q19.</span><span class="qtext">Explain equivalence relations with suitable examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">Definition</div>
+        <div class="step">A relation $R$ on $A$ is an equivalence relation if it is reflexive, symmetric, and transitive.</div>
+        <div class="lbl">Examples</div>
+        <div class="step">1) Equality $=$ on any set.</div>
+        <div class="step">2) Congruence mod $n$ on $\mathbb{Z}$.</div>
+        <div class="step">3) "Same age" relation on a set of people.</div>
+        <div class="ans">∴ Equivalence relations partition the set into disjoint classes</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q20.</span><span class="qtext">Draw a Hasse diagram for the divisibility relation on $\{1, 2, 4, 8\}$.</span></div>
+      <div class="line-block">
+        <div class="step">Relation: $a \mid b$. Pairs: $1|2,\ 1|4,\ 1|8,\ 2|4,\ 2|8,\ 4|8$</div>
+        <div class="step">Hasse diagram (only cover relations):</div>
+        <div class="step">$8$ at top → $4$ → $2$ → $1$ at bottom (straight vertical chain)</div>
+        <div class="ans">∴ Chain: $1 - 2 - 4 - 8$ (totally ordered)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q21.</span><span class="qtext">Determine whether $f(x) = 2x + 1$ is one-one and onto.</span></div>
+      <div class="line-block">
+        <div class="lbl">One-One</div>
+        <div class="step">$f(a) = f(b) \Rightarrow 2a + 1 = 2b + 1 \Rightarrow a = b$ ✓</div>
+        <div class="lbl">Onto (on $\mathbb{R}$)</div>
+        <div class="step">For any $y \in \mathbb{R}$, take $x = (y - 1)/2 \in \mathbb{R}$, then $f(x) = y$ ✓</div>
+        <div class="ans">∴ $f$ is <b>Bijective</b> on $\mathbb{R}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q22.</span><span class="qtext">Find the inverse of $f(x) = 3x - 2$.</span></div>
+      <div class="line-block">
+        <div class="step">Let $y = 3x - 2$</div>
+        <div class="step">$y + 2 = 3x$</div>
+        <div class="step">$x = \dfrac{y + 2}{3}$</div>
+        <div class="ans">$f^{-1}(x) = \dfrac{x + 2}{3}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q23.</span><span class="qtext">Differentiate between injective, surjective, and bijective functions with examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">Injective (One-One)</div>
+        <div class="step">$f(a) = f(b) \Rightarrow a = b$. Example: $f(x) = e^x$.</div>
+        <div class="lbl">Surjective (Onto)</div>
+        <div class="step">Range $=$ Codomain. Example: $f: \mathbb{R} \to \mathbb{R},\ f(x) = x^3$.</div>
+        <div class="lbl">Bijective</div>
+        <div class="step">Both injective AND surjective. Example: $f(x) = 2x + 1$ on $\mathbb{R}$.</div>
+        <div class="ans">∴ Bijection ⇒ invertible function</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q24.</span><span class="qtext">Find the composition of two functions $f(x) = x + 1$ and $g(x) = 2x$.</span></div>
+      <div class="line-block">
+        <div class="step">$(f \circ g)(x) = f(g(x)) = f(2x) = 2x + 1$</div>
+        <div class="step">$(g \circ f)(x) = g(f(x)) = g(x + 1) = 2(x + 1) = 2x + 2$</div>
+        <div class="ans">∴ $f \circ g = 2x + 1$ &nbsp; and &nbsp; $g \circ f = 2x + 2$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q25.</span><span class="qtext">Check whether a given function is bijective.</span></div>
+      <div class="line-block">
+        <div class="step">Steps to check:</div>
+        <div class="step">1) Test injectivity: $f(a) = f(b) \Rightarrow a = b$</div>
+        <div class="step">2) Test surjectivity: for each $y$ in codomain, find $x$ with $f(x) = y$</div>
+        <div class="step">If both pass ⇒ bijective.</div>
+        <div class="step">Example: $f(x) = x^3$ on $\mathbb{R}$ ⇒ bijective.</div>
+        <div class="ans">∴ Verify injectivity AND surjectivity</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q26.</span><span class="qtext">Find the image and preimage of elements under a function.</span></div>
+      <div class="line-block">
+        <div class="step">Let $f: \{1,2,3\} \to \{a,b,c\},\ f(1)=a,\ f(2)=b,\ f(3)=a$</div>
+        <div class="step">Image of $2 = f(2) = b$</div>
+        <div class="step">Image of subset $\{1,2\} = \{a, b\}$</div>
+        <div class="step">Preimage of $a = f^{-1}(\{a\}) = \{1, 3\}$</div>
+        <div class="step">Preimage of $c = f^{-1}(\{c\}) = \emptyset$</div>
+        <div class="ans">∴ Image = forward map; Preimage = inverse map</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q27.</span><span class="qtext">Prove that the composition of two one-one functions is one-one.</span></div>
+      <div class="line-block">
+        <div class="step">Let $f: A \to B,\ g: B \to C$ both be injective.</div>
+        <div class="step">Suppose $(g \circ f)(a_1) = (g \circ f)(a_2)$</div>
+        <div class="step">$\Rightarrow g(f(a_1)) = g(f(a_2))$</div>
+        <div class="step">Since $g$ is injective: $f(a_1) = f(a_2)$</div>
+        <div class="step">Since $f$ is injective: $a_1 = a_2$</div>
+        <div class="ans">∴ $g \circ f$ is one-one ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q28.</span><span class="qtext">Determine whether $f: A \to B$ is onto for given sets $A$ and $B$.</span></div>
+      <div class="line-block">
+        <div class="step">Compute range $= \{f(a) : a \in A\}$</div>
+        <div class="step">If range $= B$, then $f$ is onto.</div>
+        <div class="step">Example: $A = \{1,2,3\},\ B = \{a, b\},\ f(1)=a,\ f(2)=b,\ f(3)=a$</div>
+        <div class="step">Range $= \{a, b\} = B$ ✓</div>
+        <div class="ans">∴ $f$ is <b>Onto</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q29.</span><span class="qtext">Solve simple problems based on function mappings.</span></div>
+      <div class="line-block">
+        <div class="step">Problem: If $f(x) = x^2$ and $g(x) = x + 3$, find $f(g(2))$ and $g(f(2))$.</div>
+        <div class="step">$g(2) = 5,\ f(g(2)) = f(5) = 25$</div>
+        <div class="step">$f(2) = 4,\ g(f(2)) = g(4) = 7$</div>
+        <div class="ans">∴ $f(g(2)) = 25$, &nbsp; $g(f(2)) = 7$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q30.</span><span class="qtext">Explain real-life applications of functions in computer science.</span></div>
+      <div class="line-block">
+        <div class="step">1) <b>Hashing</b>: hash function maps keys to bucket indices.</div>
+        <div class="step">2) <b>Cryptography</b>: one-way functions for encryption (RSA, SHA).</div>
+        <div class="step">3) <b>Databases</b>: primary keys define injective mappings.</div>
+        <div class="step">4) <b>Compiler design</b>: symbol table = function from identifiers to attributes.</div>
+        <div class="step">5) <b>Machine Learning</b>: model is a function from features to predictions.</div>
+        <div class="ans">∴ Functions underpin nearly every CS abstraction</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- QUESTION BANK — UNIT 2 -->
+<!-- ====================================================================== -->
+<section id="u2" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-qbank')">← Back to Question Bank</button>
+    <h2 class="page-title">Unit 2 — Counting &amp; Induction</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">$P(n, r) = C(n, r)$. (True or False)</span></div>
+      <div class="line-block">
+        <div class="step">$P(n, r) = \dfrac{n!}{(n-r)!}$,&nbsp; $C(n, r) = \dfrac{n!}{r!(n-r)!}$</div>
+        <div class="step">$P(n, r) = r! \cdot C(n, r)$ → equal only when $r! = 1$.</div>
+        <div class="ans">∴ <b>FALSE</b> in general</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">If $f(n+1) = 3 \cdot \dfrac{f(n)}{3}$ then $f(2) = ?$</span></div>
+      <div class="line-block">
+        <div class="step">$f(n+1) = 3 \cdot \dfrac{f(n)}{3} = f(n)$</div>
+        <div class="step">So the function is constant: $f(2) = f(1)$ (= initial value).</div>
+        <div class="ans">∴ $f(2) = f(1)$ (constant; equals initial condition)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Use mathematical induction to verify that $6^n - 1$ is divisible by 5 for any positive integer $n$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Base $n = 1$</div>
+        <div class="step">$6^1 - 1 = 5 = 5 \cdot 1$ ✓</div>
+        <div class="lbl">Inductive Hypothesis</div>
+        <div class="step">Assume $5 \mid 6^k - 1 \Rightarrow 6^k - 1 = 5m$ for some $m \in \mathbb{Z}$</div>
+        <div class="lbl">Inductive Step</div>
+        <div class="step">$6^{k+1} - 1 = 6 \cdot 6^k - 1 = 6(5m + 1) - 1$</div>
+        <div class="step">$= 30m + 6 - 1 = 30m + 5 = 5(6m + 1)$</div>
+        <div class="step">$\Rightarrow 5 \mid 6^{k+1} - 1$ ✓</div>
+        <div class="ans">∴ By PMI, $5 \mid 6^n - 1\ \forall n \in \mathbb{N}$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Find $\gcd(516, 1220)$ using the Euclidean algorithm.</span></div>
+      <div class="line-block">
+        <div class="step">$1220 = 2 \cdot 516 + 188$</div>
+        <div class="step">$516 = 2 \cdot 188 + 140$</div>
+        <div class="step">$188 = 1 \cdot 140 + 48$</div>
+        <div class="step">$140 = 2 \cdot 48 + 44$</div>
+        <div class="step">$48 = 1 \cdot 44 + 4$</div>
+        <div class="step">$44 = 11 \cdot 4 + 0$</div>
+        <div class="ans">$\gcd(516, 1220) = \boxed{4}$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">In a class of 100 students, 60 like maths, 40 like physics, 25 like both. How many like at least one subject?</span></div>
+      <div class="line-block">
+        <div class="step">$|M \cup P| = |M| + |P| - |M \cap P|$</div>
+        <div class="step">$= 60 + 40 - 25 = 75$</div>
+        <div class="ans">∴ $\boxed{75}$ students like at least one subject</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Use mathematical induction to prove $1 + 3 + 5 + \dots + (2n - 1) = n^2$ for all $n \in \mathbb{N}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Base $n = 1$</div>
+        <div class="step">LHS $= 1$, RHS $= 1^2 = 1$ ✓</div>
+        <div class="lbl">Inductive Hypothesis</div>
+        <div class="step">Assume $1 + 3 + \dots + (2k - 1) = k^2$</div>
+        <div class="lbl">Inductive Step</div>
+        <div class="step">Add $(2(k+1) - 1) = (2k + 1)$ to both sides:</div>
+        <div class="step">$k^2 + (2k + 1) = (k + 1)^2$ ✓</div>
+        <div class="ans">∴ By PMI, formula holds $\forall n \in \mathbb{N}$ ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">There are 32 microcomputers in a computer center. Each microcomputer has 24 ports. How many different ports are there?</span></div>
+      <div class="line-block">
+        <div class="step">By the product rule: $32 \times 24$</div>
+        <div class="step">$= 768$</div>
+        <div class="ans">∴ $\boxed{768}$ ports</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">A student can choose a computer project from one of three lists containing 23, 15, and 19 possible projects. No project is on more than one list. How many possible projects?</span></div>
+      <div class="line-block">
+        <div class="step">By the sum rule (disjoint lists):</div>
+        <div class="step">$23 + 15 + 19 = 57$</div>
+        <div class="ans">∴ $\boxed{57}$ possible projects</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">How many passwords can be created using 5 letters from the alphabet?</span></div>
+      <div class="line-block">
+        <div class="step">26 letters, length 5, repetition allowed:</div>
+        <div class="step">$26^5 = 11{,}881{,}376$</div>
+        <div class="ans">∴ $\boxed{11{,}881{,}376}$ passwords</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Use mathematical induction to prove $7(2^n) + 2(3^{n-3}) \cdot 3^{(n-1)}$ is divisible by 25 for $n \in \mathbb{N}$.</span></div>
+      <div class="line-block">
+        <div class="lbl">Standard Induction Template</div>
+        <div class="step"><b>Step 1 — Base:</b> verify the printed expression for $n = 1$ gives a multiple of 25.</div>
+        <div class="step"><b>Step 2 — Hypothesis:</b> assume true for $n = k$, i.e. expression $= 25m$.</div>
+        <div class="step"><b>Step 3 — Step:</b> express $P(k+1)$ in terms of $P(k)$, substitute $P(k) = 25m$, and factor out 25 from the remaining terms.</div>
+        <div class="step"><b>Step 4 — Conclude:</b> by PMI, $25 \mid$ expression for all $n \in \mathbb{N}$ ∎</div>
+        <div class="ans">Apply this 4-step template to the exact printed expression in the question paper</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- QUESTION BANK — UNIT 3 -->
+<!-- ====================================================================== -->
+<section id="u3" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-qbank')">← Back to Question Bank</button>
+    <h2 class="page-title">Unit 3 — Propositional Logic</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Explain syntax vs semantics with formal examples.</span></div>
+      <div class="line-block">
+        <div class="lbl">Syntax</div>
+        <div class="step">Refers to the <b>form</b> — rules for building well-formed formulas.</div>
+        <div class="step">Example: $(p \wedge q) \to r$ is syntactically valid; $p \wedge \to q$ is not.</div>
+
+        <div class="lbl">Semantics</div>
+        <div class="step">Refers to the <b>meaning</b> — assigning truth values to formulas.</div>
+        <div class="step">Example: under $p = T, q = F$, the formula $p \wedge q$ is semantically $F$.</div>
+        <div class="ans">∴ Syntax = form; Semantics = meaning</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Determine whether the following are well-formed formulas and justify: (1) $p \wedge \vee q$; (2) $(p \to q) \wedge r$.</span></div>
+      <div class="line-block">
+        <div class="step">(1) $p \wedge \vee q$ — two binary connectives adjacent, no operand between → <b>NOT WFF</b></div>
+        <div class="step">(2) $(p \to q) \wedge r$ — properly parenthesised; $(p \to q)$ is WFF, conjoined with $r$ → <b>WFF</b> ✓</div>
+        <div class="ans">∴ Only (2) is a WFF</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Discuss the role of semantics in determining truth values of propositions with suitable examples.</span></div>
+      <div class="line-block">
+        <div class="step">Semantics assigns each propositional variable a truth value $T$ or $F$.</div>
+        <div class="step">Connectives have semantic rules:</div>
+        <div class="step">$p \wedge q = T \iff p = T$ AND $q = T$</div>
+        <div class="step">$p \vee q = T \iff p = T$ OR $q = T$</div>
+        <div class="step">$p \to q = F \iff p = T$ AND $q = F$</div>
+        <div class="step">Example: $(p \to q)$ when $p = T, q = F$ is $F$; under all other assignments is $T$.</div>
+        <div class="ans">∴ Semantics gives truth tables, enabling tautology/contradiction classification</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Construct truth table for biconditional $p \leftrightarrow q$.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|}\hline p & q & p \leftrightarrow q \\ \hline T & T & T \\ T & F & F \\ F & T & F \\ F & F & T \\ \hline\end{array}$</div>
+        <div class="ans">∴ $p \leftrightarrow q$ is $T$ iff $p$ and $q$ have the same truth value</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Determine whether $(p \to q) \vee (q \to p)$ is a tautology.</span></div>
+      <div class="line-block">
+        <div class="step">$\begin{array}{|c|c|c|c|c|}\hline p & q & p\to q & q\to p & (p\to q)\vee(q\to p) \\ \hline T & T & T & T & T \\ T & F & F & T & T \\ F & T & T & F & T \\ F & F & T & T & T \\ \hline\end{array}$</div>
+        <div class="ans">∴ All $T$ ⇒ <b>Tautology</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">State basic laws of logic.</span></div>
+      <div class="line-block">
+        <div class="step">Idempotent: $p \vee p \equiv p$,&nbsp; $p \wedge p \equiv p$</div>
+        <div class="step">Commutative: $p \vee q \equiv q \vee p$,&nbsp; $p \wedge q \equiv q \wedge p$</div>
+        <div class="step">Associative: $(p \vee q) \vee r \equiv p \vee (q \vee r)$</div>
+        <div class="step">Distributive: $p \wedge (q \vee r) \equiv (p \wedge q) \vee (p \wedge r)$</div>
+        <div class="step">Identity: $p \vee F \equiv p$,&nbsp; $p \wedge T \equiv p$</div>
+        <div class="step">Complement: $p \vee \neg p \equiv T$,&nbsp; $p \wedge \neg p \equiv F$</div>
+        <div class="step">De Morgan: $\neg(p \vee q) \equiv \neg p \wedge \neg q$</div>
+        <div class="step">Double Negation: $\neg(\neg p) \equiv p$</div>
+        <div class="step">Implication: $p \to q \equiv \neg p \vee q$</div>
+        <div class="ans">∴ These nine laws form the foundation of propositional algebra</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">Apply: $p \to q,\ p \Rightarrow ?$</span></div>
+      <div class="line-block">
+        <div class="step">1.&nbsp; $p \to q$ (premise)</div>
+        <div class="step">2.&nbsp; $p$ (premise)</div>
+        <div class="step">3.&nbsp; $\therefore q$ (Modus Ponens)</div>
+        <div class="ans">∴ Conclusion: $\boxed{q}$ (by Modus Ponens)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Using Proof by Contradiction, prove $\sqrt{2}$ is irrational.</span></div>
+      <div class="line-block">
+        <div class="step">Assume the opposite: $\sqrt{2}$ is rational.</div>
+        <div class="step">Then $\sqrt{2} = \dfrac{p}{q}$ where $p, q \in \mathbb{Z}$, $\gcd(p, q) = 1$, $q \neq 0$.</div>
+        <div class="step">Squaring: $2 = \dfrac{p^2}{q^2} \Rightarrow p^2 = 2q^2$ &nbsp;...(*)</div>
+        <div class="step">$\Rightarrow p^2$ is even $\Rightarrow p$ is even $\Rightarrow p = 2k$</div>
+        <div class="step">Substitute in (*): $(2k)^2 = 2q^2 \Rightarrow 4k^2 = 2q^2 \Rightarrow q^2 = 2k^2$</div>
+        <div class="step">$\Rightarrow q^2$ is even $\Rightarrow q$ is even.</div>
+        <div class="step">So both $p$ and $q$ are even ⇒ $\gcd(p, q) \ge 2$, contradicting $\gcd = 1$.</div>
+        <div class="ans">∴ Assumption false ⇒ $\sqrt{2}$ is irrational ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Determine whether $[(p \vee q) \wedge (\neg p \vee r)] \to (q \vee r)$ is a tautology.</span></div>
+      <div class="line-block">
+        <div class="lbl">Method — Resolution principle</div>
+        <div class="step">Premises: $(p \vee q)$ and $(\neg p \vee r)$.</div>
+        <div class="step">Resolving on $p$: conclude $(q \vee r)$ — this is the resolution rule.</div>
+        <div class="step">Hence $(p \vee q) \wedge (\neg p \vee r) \models (q \vee r)$.</div>
+        <div class="step">Therefore the implication is always true.</div>
+        <div class="ans">∴ <b>Tautology</b> (the Resolution Inference Rule)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Show that $\neg \forall x\, P(x) \equiv \exists x\, \neg P(x)$.</span></div>
+      <div class="line-block">
+        <div class="step">$\neg \forall x\, P(x)$ means "not every $x$ satisfies $P$"</div>
+        <div class="step">$\iff$ "there exists at least one $x$ that does not satisfy $P$"</div>
+        <div class="step">$\iff \exists x\, \neg P(x)$</div>
+        <div class="step">This is the <b>Quantifier Negation Law</b> (De Morgan for quantifiers).</div>
+        <div class="ans">∴ $\neg \forall x\, P(x) \equiv \exists x\, \neg P(x)$ ∎</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- QUESTION BANK — UNIT 4 -->
+<!-- ====================================================================== -->
+<section id="u4" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-qbank')">← Back to Question Bank</button>
+    <h2 class="page-title">Unit 4 — Algebraic Structures &amp; Boolean Algebra</h2>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q1.</span><span class="qtext">Let $S = \{0, 1, 2\}$ with operation $a * b = (a + b) \bmod 3$. (a) Verify whether $(S, *)$ is a semigroup. (b) Is it a monoid?</span></div>
+      <div class="line-block">
+        <div class="lbl">Closure</div>
+        <div class="step">$(a + b) \bmod 3 \in \{0, 1, 2\}$ ✓</div>
+        <div class="lbl">Associative</div>
+        <div class="step">$(a*b)*c = ((a+b)\bmod 3 + c)\bmod 3 = (a + b + c)\bmod 3$</div>
+        <div class="step">$a*(b*c) = (a + (b+c)\bmod 3)\bmod 3 = (a + b + c)\bmod 3$ ✓</div>
+        <div class="ans">(a) ∴ $(S, *)$ is a <b>Semigroup</b></div>
+        <div class="lbl">Identity</div>
+        <div class="step">$0 * a = (0 + a)\bmod 3 = a$ ✓; identity $= 0$</div>
+        <div class="ans">(b) ∴ <b>Monoid</b> with identity $e = 0$ (in fact it's the cyclic group $\mathbb{Z}_3$)</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q2.</span><span class="qtext">Prove that the set of all strings over an alphabet $\Sigma$ under concatenation forms a monoid. Identify the identity element.</span></div>
+      <div class="line-block">
+        <div class="step">Let $\Sigma^*$ = set of all finite strings over $\Sigma$, including the empty string $\varepsilon$.</div>
+        <div class="step">Operation: concatenation, $uv$.</div>
+        <div class="lbl">Closure</div>
+        <div class="step">$u, v \in \Sigma^* \Rightarrow uv \in \Sigma^*$ ✓</div>
+        <div class="lbl">Associative</div>
+        <div class="step">$(uv)w = u(vw)$ ✓ (string concatenation)</div>
+        <div class="lbl">Identity</div>
+        <div class="step">$\varepsilon u = u\varepsilon = u$ ✓; identity $= \varepsilon$ (empty string)</div>
+        <div class="ans">∴ $(\Sigma^*, \cdot, \varepsilon)$ is a <b>Monoid</b> (free monoid on $\Sigma$) ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q3.</span><span class="qtext">Let $(G, *)$ be a group. Prove that the inverse of each element is unique.</span></div>
+      <div class="line-block">
+        <div class="step">Suppose $a \in G$ has two inverses $b$ and $c$, so $a*b = b*a = e$ and $a*c = c*a = e$.</div>
+        <div class="step">$b = b * e$ (identity)</div>
+        <div class="step">$= b * (a * c)$ (since $a * c = e$)</div>
+        <div class="step">$= (b * a) * c$ (associativity)</div>
+        <div class="step">$= e * c = c$</div>
+        <div class="ans">∴ $b = c$ — inverse is unique ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q4.</span><span class="qtext">Let $G = \mathbb{Z}$ under addition and $H = 3\mathbb{Z}$. (a) Prove $H$ is a subgroup of $G$. (b) Is $H$ a normal subgroup?</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) Subgroup check</div>
+        <div class="step">$0 \in 3\mathbb{Z}$ ✓</div>
+        <div class="step">Closure: $3a + 3b = 3(a + b) \in 3\mathbb{Z}$ ✓</div>
+        <div class="step">Inverse: $-(3a) = 3(-a) \in 3\mathbb{Z}$ ✓</div>
+        <div class="step">∴ $H \le G$</div>
+        <div class="lbl">(b) Normality</div>
+        <div class="step">$(\mathbb{Z}, +)$ is abelian ⇒ every subgroup is normal.</div>
+        <div class="ans">∴ $H \trianglelefteq G$ — Normal subgroup ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q5.</span><span class="qtext">Prove that every subgroup of a cyclic group is cyclic.</span></div>
+      <div class="line-block">
+        <div class="step">Let $G = \langle g \rangle$ and $H \le G$.</div>
+        <div class="step">If $H = \{e\}$, then $H = \langle e \rangle$ — cyclic ✓</div>
+        <div class="step">Otherwise, let $m$ = smallest positive integer with $g^m \in H$.</div>
+        <div class="step">Claim: $H = \langle g^m \rangle$.</div>
+        <div class="step">Take any $g^n \in H$. By division algorithm: $n = qm + r,\ 0 \le r < m$.</div>
+        <div class="step">$g^r = g^{n - qm} = g^n \cdot (g^m)^{-q} \in H$</div>
+        <div class="step">Since $r < m$ and $m$ is minimal, $r = 0 \Rightarrow n = qm$.</div>
+        <div class="step">So $g^n = (g^m)^q \in \langle g^m \rangle$.</div>
+        <div class="ans">∴ $H = \langle g^m \rangle$ — cyclic ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q6.</span><span class="qtext">Prove that congruence modulo $n$ is an equivalence relation on $\mathbb{Z}$.</span></div>
+      <div class="line-block">
+        <div class="step">$a \equiv b \pmod{n} \iff n \mid (a - b)$</div>
+        <div class="lbl">Reflexive</div>
+        <div class="step">$n \mid (a - a) = 0$ ✓</div>
+        <div class="lbl">Symmetric</div>
+        <div class="step">$n \mid (a - b) \Rightarrow n \mid -(a - b) = (b - a)$ ✓</div>
+        <div class="lbl">Transitive</div>
+        <div class="step">$n \mid (a - b)$ and $n \mid (b - c) \Rightarrow n \mid (a - b) + (b - c) = (a - c)$ ✓</div>
+        <div class="ans">∴ Congruence mod $n$ is an <b>Equivalence Relation</b> ∎</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q7.</span><span class="qtext">In a Boolean algebra, prove the Principle of Duality with an example.</span></div>
+      <div class="line-block">
+        <div class="lbl">Principle of Duality</div>
+        <div class="step">Any identity in Boolean algebra remains valid if we swap:</div>
+        <div class="step">$+$ with $\cdot$, and $0$ with $1$.</div>
+        <div class="lbl">Example</div>
+        <div class="step">Identity: $a + 0 = a$</div>
+        <div class="step">Dual: $a \cdot 1 = a$ ✓ (also holds)</div>
+        <div class="step">Identity: $a + (b \cdot c) = (a + b)(a + c)$</div>
+        <div class="step">Dual: $a \cdot (b + c) = (a \cdot b) + (a \cdot c)$ ✓</div>
+        <div class="ans">∴ Every Boolean identity has a valid dual</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q8.</span><span class="qtext">Convert $f(A, B, C) = (A + B')(B + C)$ into (a) DNF (Disjunctive Normal Form) and (b) CNF.</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) DNF — expand</div>
+        <div class="step">$f = (A + B')(B + C)$</div>
+        <div class="step">$= AB + AC + B'B + B'C$</div>
+        <div class="step">$= AB + AC + 0 + B'C$ &nbsp;(since $B'B = 0$)</div>
+        <div class="step">$= AB + AC + B'C$ → SOP form</div>
+        <div class="step">Canonical DNF — expand each to include all 3 variables:</div>
+        <div class="step">$AB = AB(C + C') = ABC + ABC'$</div>
+        <div class="step">$AC = AC(B + B') = ABC + AB'C$</div>
+        <div class="step">$B'C = B'C(A + A') = AB'C + A'B'C$</div>
+        <div class="step">Combine (remove duplicates):</div>
+        <div class="ans">DNF: $f = ABC + ABC' + AB'C + A'B'C$</div>
+        <div class="lbl">(b) CNF</div>
+        <div class="step">$f$ already in product-of-sums-like form $(A + B')(B + C)$ — extend each clause to 3 vars:</div>
+        <div class="step">$(A + B') = (A + B' + C)(A + B' + C')$</div>
+        <div class="step">$(B + C) = (A + B + C)(A' + B + C)$</div>
+        <div class="ans">CNF: $f = (A + B + C)(A' + B + C)(A + B' + C)(A + B' + C')$</div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q9.</span><span class="qtext">Let $S$ be the set of all $2 \times 2$ matrices under multiplication. (a) Show $S$ is a semigroup. (b) Is it commutative?</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) Semigroup</div>
+        <div class="step">Closure: product of two $2 \times 2$ matrices is $2 \times 2$ ✓</div>
+        <div class="step">Associativity: matrix multiplication is associative ✓</div>
+        <div class="step">∴ $(S, \cdot)$ is a <b>Semigroup</b></div>
+        <div class="lbl">(b) Commutativity</div>
+        <div class="step">Take $A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix},\ B = \begin{pmatrix} 1 & 0 \\ 1 & 1 \end{pmatrix}$</div>
+        <div class="step">$AB = \begin{pmatrix} 2 & 1 \\ 1 & 1 \end{pmatrix},\ BA = \begin{pmatrix} 1 & 1 \\ 1 & 2 \end{pmatrix}$</div>
+        <div class="step">$AB \neq BA$</div>
+        <div class="ans">∴ <b>Not commutative</b></div>
+      </div>
+    </div>
+
+    <div class="qa">
+      <div class="qtitle"><span class="qnum">Q10.</span><span class="qtext">Let $S = \mathbb{N} \cup \{0\}$ with multiplication. (a) Prove $(S, \times)$ is a monoid. (b) Find identity. (c) Does every element have an inverse?</span></div>
+      <div class="line-block">
+        <div class="lbl">(a) Monoid check</div>
+        <div class="step">Closure: $a \cdot b \in S$ ✓</div>
+        <div class="step">Associative: ✓</div>
+        <div class="step">Identity: $1 \cdot a = a$ ✓</div>
+        <div class="step">∴ <b>Monoid</b></div>
+        <div class="lbl">(b) Identity</div>
+        <div class="step">$e = 1$</div>
+        <div class="lbl">(c) Inverses</div>
+        <div class="step">Need $a \cdot b = 1$ with $b \in S$. Only $a = 1$ has inverse $b = 1$.</div>
+        <div class="step">$0$ has no inverse; $2, 3, \dots$ have no integer inverse.</div>
+        <div class="ans">∴ Not a group — only $1$ has an inverse</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================== -->
+<!-- QUESTION BANK — UNIT 5 (same as Assignment 5 — Graph Theory) -->
+<!-- ====================================================================== -->
+<section id="u5" class="page solution-page">
+  <nav class="topbar">
+    <div class="logo">📘 <span>MathSolve</span></div>
+    <div class="nav-links">
+      <a class="nav-item" data-target="home">Home</a>
+      <a class="nav-item" data-target="selector">Solutions</a>
+    </div>
+  </nav>
+  <div class="container">
+    <button class="back" onclick="show('cat-qbank')">← Back to Question Bank</button>
+    <h2 class="page-title">Unit 5 — Graph Theory</h2>
+    <p class="page-sub" style="margin-bottom:30px">📌 This unit's 15 questions match Assignment 5 exactly. Full solutions are already available there:</p>
+    <div style="text-align:center;margin-top:20px">
+      <button class="cta" onclick="show('a5')">📐 Open Assignment 5 — Graph Theory Solutions</button>
+    </div>
+    <div class="qa" style="margin-top:40px">
+      <div class="qtitle"><span class="qnum">📋</span><span class="qtext">Unit 5 covers: Max vertices/edges, self-complementary graphs, simple graphs on 3 vertices, drawing $G = (V, E)$, $K_{m,n}$ bipartite, Eulerian graphs, trees with one/two centres, eccentricity, and more.</span></div>
+      <div class="line-block">
+        <div class="lbl">Topics covered (all 15 questions solved in Assignment 5)</div>
+        <div class="step">Q1. Max vertices with 35 edges, min degree 3</div>
+        <div class="step">Q2. Self-complementary graphs have $4k$ or $4k+1$ vertices</div>
+        <div class="step">Q3. Draw all simple graphs on 3 vertices</div>
+        <div class="step">Q4. Draw $G$ with $V = \{A,B,C,D,E\}$ and given edges</div>
+        <div class="step">Q5. Max edges $= n(n-1)/2$</div>
+        <div class="step">Q6. 7-vertex self-complementary graph existence</div>
+        <div class="step">Q7. Two vertices of same degree</div>
+        <div class="step">Q8. Max edges with $n$ vertices and $k$ components</div>
+        <div class="step">Q9. Draw $G$ on $\{v_1, ..., v_5\}$ (cycle $C_5$)</div>
+        <div class="step">Q10. Max edges in $K_{m,n}$</div>
+        <div class="step">Q11. Examples — bipartite/complete/Platonic graphs</div>
+        <div class="step">Q12. Is $K_n$ Eulerian?</div>
+        <div class="step">Q13. Values of $n$ for $K_n$ Eulerian</div>
+        <div class="step">Q14. Define eccentricity of a vertex</div>
+        <div class="step">Q15. Tree with one centre / two centres</div>
+        <div class="ans">👉 Click the button above to view all detailed line-by-line solutions in Assignment 5</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  Built with ❤ — pure HTML, CSS &amp; JS + MathJax · No API · Offline-ready
+</footer>
+
+<script>
+/* ============ PAGE NAVIGATION ============ */
+function show(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el){
+    el.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      MathJax.typesetPromise([el]).catch(()=>{});
+    }
+  }
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.classList.toggle('active', n.dataset.target===id);
+  });
+}
+
+/* ============ STYLE VARIATION GENERATORS ============
+   Each function takes the Style-1 line-block element and returns
+   the inner HTML for that variation. We re-use the same logical
+   steps but re-arrange/re-label them to give each style a distinct
+   look so classmates can submit different-looking solutions.        */
+
+function parseSteps(srcEl){
+  const items=[];
+  Array.from(srcEl.children).forEach(node=>{
+    if(!node.classList) return;
+    let type = null;
+    if(node.classList.contains('lbl')) type='lbl';
+    else if(node.classList.contains('ans')) type='ans';
+    else if(node.classList.contains('step')) type='step';
+    if(type) items.push({type, html: node.innerHTML});
+  });
+  return items;
+}
+
+/* ----- STYLE 2: Text-Heavy Descriptive ----- */
+function genStyle2(items){
+  let out='';
+  let firstLbl=true;
+  items.forEach(it=>{
+    if(it.type==='lbl'){
+      const heading = firstLbl ? 'Understanding the Problem' : it.html;
+      firstLbl=false;
+      out+=`<div class="lbl">📖 ${heading} — Detailed Explanation</div>`;
+      out+=`<div class="step">We now turn our attention to the section titled <b>"${it.html}"</b>. The objective here is to carefully unfold the mathematical reasoning so that each transition is fully justified and easy to reproduce in an examination setting.</div>`;
+    } else if(it.type==='step'){
+      out+=`<div class="step">Proceeding further, we observe that ${it.html}. This intermediate result follows directly from the preceding line and is a necessary stepping stone toward our final conclusion.</div>`;
+    } else {
+      out+=`<div class="ans">After consolidating every line of the derivation above, we conclude with confidence: ${it.html}</div>`;
+    }
+  });
+  return out;
+}
+
+/* ----- STYLE 3: Short & Direct ----- */
+function genStyle3(items){
+  let out='';
+  let stepNum=0;
+  items.forEach(it=>{
+    if(it.type==='lbl'){
+      out+=`<div class="lbl">▸ ${it.html}</div>`;
+    } else if(it.type==='step'){
+      stepNum++;
+      out+=`<div class="step"><b>(${stepNum})</b> ${it.html}</div>`;
+    } else {
+      out+=`<div class="ans">⇒ ${it.html}</div>`;
+    }
+  });
+  return out;
+}
+
+/* ----- STYLE 4: Analytical Diagram-Logic ----- */
+function genStyle4(items){
+  let out='';
+  let region=1;
+  items.forEach(it=>{
+    if(it.type==='lbl'){
+      out+=`<div class="lbl">🔍 Region ${region++} — ${it.html}</div>`;
+      out+=`<div class="step note">Analytical breakdown of this structural component:</div>`;
+    } else if(it.type==='step'){
+      out+=`<div class="step">▸ Configuration: ${it.html}</div>`;
+    } else {
+      out+=`<div class="ans">📊 Synthesised Result: ${it.html}</div>`;
+    }
+  });
+  return out;
+}
+
+/* ----- STYLE 5: Advanced Notation Accentuated ----- */
+function genStyle5(items){
+  let out='';
+  items.forEach((it,i)=>{
+    if(it.type==='lbl'){
+      out+=`<div class="lbl">§${i+1}. ${it.html}</div>`;
+    } else if(it.type==='step'){
+      let h = it.html.replace(/\\Rightarrow/g,'\\implies');
+      out+=`<div class="step">$\\therefore$ ${h}</div>`;
+    } else {
+      let h = it.html.replace(/∎|Q\.E\.D\.?/gi,'').trim();
+      out+=`<div class="ans">${h} &nbsp;&nbsp; $\\blacksquare$ &nbsp; <i>Q.E.D.</i></div>`;
+    }
+  });
+  return out;
+}
+
+/* ============ STYLE METADATA & SWITCHER ============ */
+const STYLE_META = [
+  {id:1, label:'Standard',   icon:'📘'},
+  {id:2, label:'Descriptive',icon:'📝'},
+  {id:3, label:'Direct',     icon:'⚡'},
+  {id:4, label:'Analytical', icon:'🔍'},
+  {id:5, label:'Advanced',   icon:'🎓'}
+];
+
+function buildStyleSwitcher(qaEl){
+  try {
+    const originalBlocks = Array.from(qaEl.children).filter(c => c.classList && c.classList.contains('line-block'));
+    if(originalBlocks.length===0) return;
+
+    originalBlocks.forEach((origBlock)=>{
+      const items = parseSteps(origBlock);
+      if(items.length===0) return;
+
+      origBlock.classList.add('active');
+      origBlock.dataset.style='1';
+
+      const generators = [genStyle2, genStyle3, genStyle4, genStyle5];
+      const newBlocks = generators.map((gen, gi)=>{
+        const styleNum = gi+2;
+        const nb = document.createElement('div');
+        nb.className='line-block';
+        nb.dataset.style=String(styleNum);
+        try { nb.innerHTML = gen(items); }
+        catch(e){ console.warn('gen failed', e); nb.innerHTML = origBlock.innerHTML; }
+        return nb;
+      });
+      newBlocks.forEach(nb => origBlock.insertAdjacentElement('afterend', nb));
+    });
+
+    const titles = Array.from(qaEl.children).filter(c => c.classList && c.classList.contains('qtitle'));
+    const anchor = titles.length ? titles[titles.length-1] : qaEl.firstElementChild;
+    if(!anchor) return;
+
+    const tabs = document.createElement('div');
+    tabs.className='style-tabs';
+    STYLE_META.forEach(s=>{
+      const btn = document.createElement('button');
+      btn.type='button';
+      btn.className='style-tab' + (s.id===1?' active':'');
+      btn.dataset.style=String(s.id);
+      btn.innerHTML=`<span class="num">${s.icon}</span><span class="lbl-text">${s.label}</span><span class="num" style="margin-left:4px">S${s.id}</span>`;
+      btn.title=`Style ${s.id} — ${s.label}`;
+      btn.addEventListener('click',(ev)=>{
+        ev.preventDefault();
+        switchStyle(qaEl, s.id, btn);
+      });
+      tabs.appendChild(btn);
+    });
+    anchor.insertAdjacentElement('afterend', tabs);
+
+    qaEl.classList.add('js-ready');
+  } catch(err){
+    console.error('buildStyleSwitcher failed for', qaEl, err);
+    const firstBlock = qaEl.querySelector('.line-block');
+    if(firstBlock) firstBlock.classList.add('active');
+  }
+}
+
+function switchStyle(qaEl, styleNum, clickedBtn){
+  qaEl.querySelectorAll('.style-tab').forEach(t=>t.classList.toggle('active', t===clickedBtn));
+  const blocks = Array.from(qaEl.children).filter(c => c.classList && c.classList.contains('line-block'));
+  blocks.forEach(b=>{
+    b.classList.toggle('active', b.dataset.style===String(styleNum));
+  });
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    const visible = blocks.filter(b => b.classList.contains('active'));
+    if(visible.length) MathJax.typesetPromise(visible).catch(()=>{});
+  }
+}
+
+/* ============ INIT ============ */
+document.addEventListener('DOMContentLoaded',()=>{
+  // Inject 5-style switcher into every .qa block
+  document.querySelectorAll('.qa').forEach(buildStyleSwitcher);
+
+  // Nav links
+  document.querySelectorAll('.nav-item').forEach(n=>{
+    n.addEventListener('click',e=>{
+      e.preventDefault();
+      show(n.dataset.target);
+    });
+  });
+  // Keyboard shortcuts
+  document.addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+    const map={'1':'a1','2':'a2','3':'a3','4':'a5','h':'home','H':'home','s':'selector','S':'selector'};
+    if(map[e.key]) show(map[e.key]);
+  });
+
+  // Initial MathJax re-typeset after tabs injected
+  if (window.MathJax && window.MathJax.startup) {
+    MathJax.startup.promise = MathJax.startup.promise.then(()=>MathJax.typesetPromise());
+  }
+});
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447" integrity="sha512-57MDmcccJXYtNnH+ZiBwzC4jb2rvgVCEokYN+L/nLlmO8rfYT/gIpW2A569iJ/3b+0UEasghjuZH/ma3wIs/EQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a10c2a30d832dc57',t:'MTc4MjMwODY0MQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a10c92633f1cf01d',t:'MTc4MjMxMjkwOQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
